@@ -1,0 +1,7 @@
+__pycache__/
+*.py[cdo]
+*$py.class
+build/
+dist/
+*.egg-info/
+.DS_Store
