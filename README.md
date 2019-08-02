@@ -17,6 +17,16 @@ Source Code
 
   <code>https://github.com/authlete/authlete-python</code>
 
+PyPI (Python Package Index)
+---------------------------
+
+  <code>https://pypi.org/project/authlete/</code>
+
+Install
+-------
+
+    pip install authlete
+
 Quick Start
 -----------
 
@@ -61,21 +71,29 @@ api = AuthleteApiImpl(cnf)
 # /api/auth/authorization API
 #--------------------------------------------------
 
+# Prepare a request to /api/auth/authorization API.
 req = AuthorizationRequest()
 req.parameters = 'response_type=code&client_id={}'.format(client_id)
 
+# Call /api/auth/authorization API. The class of the
+# response is authlete.dto.AuthorizationResponse.
 res = api.authorization(req)
 
 
 #--------------------------------------------------
 # /api/auth/authorization/issue API
 #--------------------------------------------------
+
+# Prepare a request to /api/auth/authorization/issue API.
 req = AuthorizationIssueRequest()
 req.ticket  = res.ticket
 req.subject = user_id
 
+# Call /api/auth/authorization/issue API. The class of the
+# response is authlete.dto.AuthorizationIssueResponse.
 res = api.authorizationIssue(req)
 
+# An authorization response returned to the user agent.
 print('HTTP/1.1 302 Found')
 print('Location: {}'.format(res.responseContent))
 
@@ -83,12 +101,17 @@ print('Location: {}'.format(res.responseContent))
 #--------------------------------------------------
 # /api/auth/token API
 #--------------------------------------------------
+
+# Prepare a request to /api/auth/token API.
 req = TokenRequest()
 req.parameters = 'client_id={}&grant_type=authorization_code&code={}'\
     .format(client_id, res.authorizationCode)
 
+# Call /api/auth/token API. The class of the response is
+# authlete.dto.TokenResponse.
 res = api.token(req)
 
+# A token response returned to the client.
 print("\nHTTP/1.1 200 OK")
 print("Content-Type: application/json\n")
 print(res.responseContent)
