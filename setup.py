@@ -24,18 +24,27 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="authlete",
-    version="1.0.0",
+    version="1.0.1",
+    license="Apache License, Version 2.0",
     author="Authlete, Inc.",
     author_email="admin@authlete.com",
     description="Python library for Authlete",
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/authlete/authlete-python",
-    packages=setuptools.find_packages(exclude=['tests', 'tests.*']),
+    packages=[
+        "authlete.api",
+        "authlete.conf",
+        "authlete.dto",
+        "authlete.types",
+    ],
     classifiers=[
         "Programming Language :: Python :: 3",
         "License :: OSI Approved :: Apache Software License",
         "Operating System :: OS Independent",
         "Topic :: Security",
     ],
+    install_requires=[
+        "requests",
+    ]
 )
