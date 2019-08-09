@@ -17,7 +17,7 @@
 
 from authlete.dto.property        import Property
 from authlete.dto.api_response    import ApiResponse
-from authlete.dto.user_nfo_action import UserInfoAction
+from authlete.dto.userinfo_action import UserInfoAction
 
 
 class UserInfoResponse(ApiResponse):
