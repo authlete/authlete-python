@@ -320,6 +320,13 @@ Features available in Authlete 2.1 and onwards:
 - OAuth 2.0 Device Authorization Grant (Device Flow)
 - JWT-based Access Token
 
+See Also
+--------
+
+- [authlete-python-django](https://github.com/authlete/authlete-python-django/) : Authlete library for Django
+- [django-oauth-server](https://github.com/authlete/django-oauth-server/) : Authorization server implementation using Django
+- [django-resource-server](https://github.com/authlete/django-resource-server/) : Resource server implementation using Django
+
 Contact
 -------
 
