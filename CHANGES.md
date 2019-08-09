@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+Renamed `user_info_*` to `userinfo_*`.
+
+
 1.0.1 (2019-08-02)
 ------------------
 

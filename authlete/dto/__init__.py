@@ -102,9 +102,9 @@ from .token_response                               import TokenResponse
 from .token_update_action                          import TokenUpdateAction
 from .token_update_request                         import TokenUpdateRequest
 from .token_update_response                        import TokenUpdateResponse
-from .user_info_action                             import UserInfoAction
-from .user_info_issue_action                       import UserInfoIssueAction
-from .user_info_issue_request                      import UserInfoIssueRequest
-from .user_info_issue_response                     import UserInfoIssueResponse
-from .user_info_request                            import UserInfoRequest
-from .user_info_response                           import UserInfoResponse
+from .userinfo_action                              import UserInfoAction
+from .userinfo_issue_action                        import UserInfoIssueAction
+from .userinfo_issue_request                       import UserInfoIssueRequest
+from .userinfo_issue_response                      import UserInfoIssueResponse
+from .userinfo_request                             import UserInfoRequest
+from .userinfo_response                            import UserInfoResponse

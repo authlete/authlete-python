@@ -15,15 +15,24 @@
 # License.
 
 
-from authlete.dto.api_response           import ApiResponse
-from authlete.dto.user_info_issue_action import UserInfoIssueAction
+from authlete.dto.property        import Property
+from authlete.dto.api_response    import ApiResponse
+from authlete.dto.user_nfo_action import UserInfoAction
 
 
-class UserInfoIssueResponse(ApiResponse):
+class UserInfoResponse(ApiResponse):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'action':          UserInfoIssueAction,
-            'responseContent': str
+            'action':                UserInfoAction,
+            'clientId':              int,
+            'subject':               str,
+            'scopes':                str,       # list of str
+            'claims':                str,       # list of str
+            'token':                 str,
+            'responseContent':       str,
+            'properties':            Property,  # list of Property
+            'clientIdAlias':         str,
+            'clientIdAliasUsed':     bool
         }
 
         super().__init__(nameAndValues, nameAndTypes)
