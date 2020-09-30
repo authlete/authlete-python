@@ -34,6 +34,9 @@ CHANGES
     * Added `accessTokenDuration`.
     * Added `refreshTokenDuration`.
 
+- `DeviceAuthorizationResponse` class
+    * Added `resources`.
+
 
 1.0.2 (2019-08-09)
 ------------------

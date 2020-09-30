@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -38,6 +38,7 @@ class DeviceAuthorizationResponse(ApiResponse):
             'verificationUriComplete': str,
             'expiresIn':               int,
             'interval':                int,
+            'resources':               str,   # list of str
             'warnings':                str    # list of str
         }
 
