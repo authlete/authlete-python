@@ -4,6 +4,9 @@ CHANGES
 - `AuthorizationFailReason` class
     * Added `INVALID_TARGET`.
 
+- `AuthorizationIssueRequest` class
+    * Added `idtHeaderParams`.
+
 
 1.0.2 (2019-08-09)
 ------------------
