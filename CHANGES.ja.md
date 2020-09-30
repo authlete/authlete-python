@@ -30,6 +30,10 @@
     * `requestObjectRequired` 追加。
     * `sectorIdentifier` を `sectorIdentifierUri` に変更。
 
+- `ClientExtension` クラス
+    * `accessTokenDuration` 追加。
+    * `refreshTokenDuration` 追加。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------

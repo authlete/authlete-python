@@ -30,6 +30,10 @@ CHANGES
     * Added `requestObjectRequired`.
     * Renamed `sectorIdentifier` to `sectorIdentifierUri`.
 
+- `ClientExtension` class
+    * Added `accessTokenDuration`.
+    * Added `refreshTokenDuration`.
+
 
 1.0.2 (2019-08-09)
 ------------------
