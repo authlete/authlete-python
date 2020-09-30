@@ -96,6 +96,9 @@ CHANGES
 - `UserInfoResponse` class
     * Added `userInfoClaims`.
 
+- New classes
+    * `PushedAuthReqRequest`
+
 
 1.0.2 (2019-08-09)
 ------------------

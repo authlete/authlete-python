@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -74,6 +74,7 @@ from .jose_verify_response                         import JoseVerifyResponse
 from .named_uri                                    import NamedUri
 from .pair                                         import Pair
 from .property                                     import Property
+from .pushed_auth_req_request                      import PushedAuthReqRequest
 from .revocation_action                            import RevocationAction
 from .revocation_request                           import RevocationRequest
 from .revocation_response                          import RevocationResponse
