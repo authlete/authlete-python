@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,3 +21,4 @@ from enum import Enum, auto
 class TokenFailReason(Enum):
     UNKNOWN                            = auto()
     INVALID_RESOURCE_OWNER_CREDENTIALS = auto()
+    INVALID_TARGET                     = auto()

@@ -69,6 +69,9 @@ CHANGES
     * Added `certificateThumbprint`.
     * Added `dpopKeyThumbprint`.
 
+- `TokenFailReason` class
+    * Added `INVALID_TARGET`.
+
 
 1.0.2 (2019-08-09)
 ------------------
