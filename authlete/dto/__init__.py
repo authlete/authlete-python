@@ -76,6 +76,7 @@ from .pair                                         import Pair
 from .property                                     import Property
 from .pushed_auth_req_action                       import PushedAuthReqAction
 from .pushed_auth_req_request                      import PushedAuthReqRequest
+from .pushed_auth_req_response                     import PushedAuthReqResponse
 from .revocation_action                            import RevocationAction
 from .revocation_request                           import RevocationRequest
 from .revocation_response                          import RevocationResponse
