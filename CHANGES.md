@@ -20,6 +20,9 @@ CHANGES
 - `BackchannelAuthenticationFailReason` class
     * Added `INVALID_TARGET`.
 
+- `BackchannelAuthenticationResponse` class
+    * Added `resources`.
+
 
 1.0.2 (2019-08-09)
 ------------------
