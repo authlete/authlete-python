@@ -93,6 +93,9 @@ CHANGES
     * Added `htm`.
     * Added `htu`.
 
+- `UserInfoResponse` class
+    * Added `userInfoClaims`.
+
 
 1.0.2 (2019-08-09)
 ------------------
