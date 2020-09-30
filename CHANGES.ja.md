@@ -23,6 +23,13 @@
 - `BackchannelAuthenticationResponse` クラス
     * `resources` 追加。
 
+- `Client` クラス
+    * `authorizationDataTypes` 追加。
+    * `derivedSectorIdentifier` 追加。
+    * `parRequired` 追加。
+    * `requestObjectRequired` 追加。
+    * `sectorIdentifier` を `sectorIdentifierUri` に変更。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------

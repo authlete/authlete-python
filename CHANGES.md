@@ -23,6 +23,13 @@ CHANGES
 - `BackchannelAuthenticationResponse` class
     * Added `resources`.
 
+- `Client` class
+    * Added `authorizationDataTypes`.
+    * Added `derivedSectorIdentifier`.
+    * Added `parRequired`.
+    * Added `requestObjectRequired`.
+    * Renamed `sectorIdentifier` to `sectorIdentifierUri`.
+
 
 1.0.2 (2019-08-09)
 ------------------
