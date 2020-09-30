@@ -40,6 +40,11 @@ CHANGES
 - `DeviceVerificationResponse` class
     * Added `resources`.
 
+- `IntrospectionRequest` class
+    * Added `dpop`.
+    * Added `htm`.
+    * Added `htu`.
+
 
 1.0.2 (2019-08-09)
 ------------------

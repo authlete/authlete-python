@@ -40,6 +40,11 @@
 - `DeviceVerificationResponse` クラス
     * `resources` 追加。
 
+- `IntrospectionRequest` クラス
+    * `dpop` 追加。
+    * `htm` 追加。
+    * `htu` 追加。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------
