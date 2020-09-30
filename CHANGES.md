@@ -7,6 +7,10 @@ CHANGES
 - `AuthorizationIssueRequest` class
     * Added `idtHeaderParams`.
 
+- `AuthorizationResponse` class
+    * Added `purpose`.
+    * Added `resources`.
+
 
 1.0.2 (2019-08-09)
 ------------------
