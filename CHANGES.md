@@ -11,6 +11,9 @@ CHANGES
     * Added `purpose`.
     * Added `resources`.
 
+- `BackchannelAuthenticationCompleteRequest` class
+    * Added `idtHeaderParams`.
+
 
 1.0.2 (2019-08-09)
 ------------------

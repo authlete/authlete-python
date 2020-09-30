@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -32,6 +32,7 @@ class BackchannelAuthenticationCompleteRequest(Jsonable):
             'claims':           str,
             'properties':       Property,  # list of Property
             'scopes':           str,       # list of str
+            'idtHeaderParams':  str,
             'errorDescription': str,
             'errorUri':         str
         }
