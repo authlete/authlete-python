@@ -72,6 +72,9 @@
 - `TokenFailReason` クラス
     * `INVALID_TARGET` 追加。
 
+- `TokenIssueResponse` クラス
+    * `accessTokenResources` 追加。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------

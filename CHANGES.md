@@ -72,6 +72,9 @@ CHANGES
 - `TokenFailReason` class
     * Added `INVALID_TARGET`.
 
+- `TokenIssueResponse` class
+    * Added `accessTokenResources`.
+
 
 1.0.2 (2019-08-09)
 ------------------

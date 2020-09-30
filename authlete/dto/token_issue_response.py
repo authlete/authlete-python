@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -37,7 +37,8 @@ class TokenIssueResponse(ApiResponse):
             'subject':               str,
             'scopes':                str,       # list of str
             'properties':            Property,  # list of Property
-            'jwtAccessToken':        str
+            'jwtAccessToken':        str,
+            'accessTokenResources':  str,       # list of str
         }
 
         super().__init__(nameAndValues, nameAndTypes)
