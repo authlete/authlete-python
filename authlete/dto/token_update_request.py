@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -29,7 +29,9 @@ class TokenUpdateRequest(Jsonable):
             'accessTokenExpiresAtUpdatedOnScopeUpdate': bool,
             'accessTokenPersistent':                    bool,
             'accessTokenHash':                          str,
-            'accessTokenValueUpdated':                  bool
+            'accessTokenValueUpdated':                  bool,
+            'certificateThumbprint':                    str,
+            'dpopKeyThumbprint':                        str,
         }
 
         super().__init__(nameAndValues, nameAndTypes)
