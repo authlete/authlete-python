@@ -45,6 +45,10 @@ CHANGES
     * Added `htm`.
     * Added `htu`.
 
+- `IntrospectionResponse` class
+    * Added `accessTokenResources`.
+    * Added `resources`.
+
 
 1.0.2 (2019-08-09)
 ------------------
