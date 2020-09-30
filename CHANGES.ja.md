@@ -37,6 +37,9 @@
 - `DeviceAuthorizationResponse` クラス
     * `resources` 追加。
 
+- `DeviceVerificationResponse` クラス
+    * `resources` 追加。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------
