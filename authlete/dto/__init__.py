@@ -74,6 +74,7 @@ from .jose_verify_response                         import JoseVerifyResponse
 from .named_uri                                    import NamedUri
 from .pair                                         import Pair
 from .property                                     import Property
+from .pushed_auth_req_action                       import PushedAuthReqAction
 from .pushed_auth_req_request                      import PushedAuthReqRequest
 from .revocation_action                            import RevocationAction
 from .revocation_request                           import RevocationRequest

@@ -97,6 +97,7 @@
     * `userInfoClaims` 追加。
 
 - 新しいクラス
+    * `PushedAuthReqAction`
     * `PushedAuthReqRequest`
 
 

@@ -97,6 +97,7 @@ CHANGES
     * Added `userInfoClaims`.
 
 - New classes
+    * `PushedAuthReqAction`
     * `PushedAuthReqRequest`
 
 
