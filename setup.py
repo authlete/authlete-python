@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -24,7 +24,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="authlete",
-    version="1.0.2",
+    version="1.0.3",
     license="Apache License, Version 2.0",
     author="Authlete, Inc.",
     author_email="admin@authlete.com",
