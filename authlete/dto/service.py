@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -86,6 +86,7 @@ class Service(Jsonable):
             'pkceRequire':                              bool,
             'pkceS256Required':                         bool,
             'refreshTokenKept':                         bool,
+            'refreshTokenDurationKept':                 bool,
             'errorDescriptionOmitted':                  bool,
             'errorUriOmitted':                          bool,
             'clientIdAliasEnabled':                     bool,
@@ -96,6 +97,7 @@ class Service(Jsonable):
             'mutualTlsValiddatePkiCertChain':           bool,
             'trustedRootCertificates':                  str,               # list of str
             'dynamicRegistrationSupported':             bool,
+            'endSessionEndpoint':                       str,
             'description':                              str,
             'accessTokenType':                          str,
             'accessTokenSignAlg':                       JWSAlg,
@@ -103,6 +105,7 @@ class Service(Jsonable):
             'refreshTokenDuration':                     int,
             'idTokenDuration':                          int,
             'authorizationResponseDuration':            int,
+            'pushedAuthReqDuration':                    int,
             'metadata':                                 Pair,              # list of Pair
             'accessTokenSignatureKeyId':                str,
             'authorizationSignatureKeyId':              str,
@@ -122,8 +125,18 @@ class Service(Jsonable):
             'deviceFlowPollingInterval':                int,
             'userCodeCharset':                          UserCodeCharset,
             'userCodeLength':                           int,
-            'requestObjectEndpoint':                    str,
-            'mtlsEndpointAliases':                      NamedUri            # list of NamedUri
+            'pushedAuthReqEndpoint':                    str,
+            'mtlsEndpointAliases':                      NamedUri,          # list of NamedUri
+            'supportedAuthorizationDataTypes':          str,               # list of str
+            'supportedTrustFrameworks':                 str,               # list of str
+            'supportedEvidence':                        str,               # list of str
+            'supportedIdentityDocuments':               str,               # list of str
+            'supportedVerificationMethods':             str,               # list of str
+            'supportedVerifiedClaims':                  str,               # list of str
+            'missingClientIdAllowed':                   bool,
+            'parRequired':                              bool,
+            'requestObjectRequired':                    bool,
+            'traditionalRequestObjectProcessingApplied':bool,
         }
 
         super().__init__(nameAndValues, nameAndTypes)

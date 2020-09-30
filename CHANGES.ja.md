@@ -49,6 +49,22 @@
     * `accessTokenResources` 追加。
     * `resources` 追加。
 
+- `Service` クラス
+    * `endSessionEndpoint` 追加。
+    * `missingClientIdAllowed` 追加。
+    * `parRequired` 追加。
+    * `pushedAuthReqDuration` 追加。
+    * `refreshTokenDurationKept` 追加。
+    * `requestObjectRequired` 追加。
+    * `supportedAuthorizationDataTypes` 追加。
+    * `supportedEvidence` 追加。
+    * `supportedIdentityDocuments` 追加。
+    * `supportedTrustFrameworks` 追加。
+    * `supportedVerificationMethods` 追加。
+    * `supportedVerifiedClaims` 追加。
+    * `traditionalRequestObjectProcessingApplied` 追加。
+    * `requestObjectEndpoint` を `pushedAuthReqEndpoint` に変更。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------

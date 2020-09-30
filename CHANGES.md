@@ -49,6 +49,22 @@ CHANGES
     * Added `accessTokenResources`.
     * Added `resources`.
 
+- `Service` class
+    * Added `endSessionEndpoint`.
+    * Added `missingClientIdAllowed`.
+    * Added `parRequired`.
+    * Added `pushedAuthReqDuration`.
+    * Added `refreshTokenDurationKept`.
+    * Added `requestObjectRequired`.
+    * Added `supportedAuthorizationDataTypes`.
+    * Added `supportedEvidence`.
+    * Added `supportedIdentityDocuments`.
+    * Added `supportedTrustFrameworks`.
+    * Added `supportedVerificationMethods`.
+    * Added `supportedVerifiedClaims`.
+    * Added `traditionalRequestObjectProcessingApplied`.
+    * Renamed `requestObjectEndpoint` to `pushedAuthReqEndpoint`.
+
 
 1.0.2 (2019-08-09)
 ------------------
