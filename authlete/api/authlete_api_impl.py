@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -479,3 +479,9 @@ class AuthleteApiImpl(AuthleteApi):
         return self.__callServicePostApi(
             '/api/device/verification',
             request, DeviceVerificationResponse)
+
+
+    def pushAuthorizationRequest(self, request):
+        return self.__callServicePostApi(
+            '/api/pushed_auth_req',
+            request, PushedAuthReqResponse)

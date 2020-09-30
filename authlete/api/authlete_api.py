@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2020 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -801,7 +801,7 @@ class AuthleteApi(metaclass=ABCMeta):
             request (authlete.dto.DeviceAuthorizationRequest)
 
         Returns:
-            authlete.dto.DeviceAuthorizationRequest
+            authlete.dto.DeviceAuthorizationResponse
 
         Raises:
             authlete.api.AuthleteApiException
@@ -817,7 +817,7 @@ class AuthleteApi(metaclass=ABCMeta):
             request (authlete.dto.DeviceCompleteRequest)
 
         Returns:
-            authlete.dto.DeviceCompleteRequest
+            authlete.dto.DeviceCompleteResponse
 
         Raises:
             authlete.api.AuthleteApiException
@@ -833,7 +833,23 @@ class AuthleteApi(metaclass=ABCMeta):
             request (authlete.dto.DeviceVerificationRequest)
 
         Returns:
-            authlete.dto.DeviceVerificationRequest
+            authlete.dto.DeviceVerificationResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def pushAuthorizationRequest(self, request):
+        """Call Authlete's /api/push_auth_req API.
+
+        Args:
+            request (authlete.dto.PushedAuthReqRequest)
+
+        Returns:
+            authlete.dto.PushedAuthReqResponse
 
         Raises:
             authlete.api.AuthleteApiException

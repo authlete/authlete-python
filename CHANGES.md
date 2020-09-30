@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+- `AuthleteApi` class
+    * Added `pushedAuthorizationRequest` method.
+
 - `AuthorizationFailReason` class
     * Added `INVALID_TARGET`.
 

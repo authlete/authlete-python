@@ -296,6 +296,10 @@ Methods in `AuthleteApi` interface can be divided into some categories.
 - `deviceComplete(request)`
 - `deviceVerification(request)`
 
+##### Methods for PAR (Pushed Authorization Request)
+
+- `pushAuthorizationRequest(request)`
+
 Authlete Version
 ----------------
 
@@ -319,6 +323,8 @@ Features available in Authlete 2.1 and onwards:
 - Dynamic Client Registration (RFC 7591 & RFC 7592)
 - OAuth 2.0 Device Authorization Grant (Device Flow)
 - JWT-based Access Token
+
+See [Spec Sheet](https://www.authlete.com/legal/spec_sheet/) for further details.
 
 See Also
 --------

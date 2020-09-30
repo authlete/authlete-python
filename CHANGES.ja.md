@@ -1,6 +1,9 @@
 変更点
 ======
 
+- `AuthleteApi` クラス
+    * `pushAuthorizationRequest` メソッド追加。
+
 - `AuthorizationFailReason` クラス
     * `INVALID_TARGET` 追加。
 

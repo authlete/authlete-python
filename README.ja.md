@@ -293,6 +293,10 @@ settings.readTimeout       = 5.0
 - `deviceComplete(request)`
 - `deviceVerification(request)`
 
+##### PAR (Pushed Authorization Request) に関するメソッド群
+
+- `pushAuthorizationRequest(request)`
+
 Authlete バージョン
 -------------------
 
@@ -315,6 +319,9 @@ Authlete 2.1 以降で利用できる機能：
 - Dynamic Client Registration (RFC 7591 & RFC 7592)
 - OAuth 2.0 Device Authorization Grant (Device Flow)
 - JWT-based Access Token
+
+詳細情報は [スペックシート](https://www.authlete.com/ja/legal/spec_sheet/)
+を参照してください。
 
 その他の情報
 ------------
