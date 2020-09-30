@@ -39,7 +39,8 @@ class BackchannelAuthenticationCompleteResponse(ApiResponse):
             'accessTokenDuration':        int,
             'refreshTokenDuration':       int,
             'idTokenDuration':            int,
-            'jwtAccessToken':             str
+            'jwtAccessToken':             str,
+            'resources':                  str,
         }
 
         super().__init__(nameAndValues, nameAndTypes)
