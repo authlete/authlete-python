@@ -65,6 +65,10 @@ CHANGES
     * Added `traditionalRequestObjectProcessingApplied`.
     * Renamed `requestObjectEndpoint` to `pushedAuthReqEndpoint`.
 
+- `TokenCreateRequest` class
+    * Added `certificateThumbprint`.
+    * Added `dpopKeyThumbprint`.
+
 
 1.0.2 (2019-08-09)
 ------------------

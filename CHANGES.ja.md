@@ -65,6 +65,10 @@
     * `traditionalRequestObjectProcessingApplied` 追加。
     * `requestObjectEndpoint` を `pushedAuthReqEndpoint` に変更。
 
+- `TokenCreateRequest` クラス
+    * `certificateThumbprint` 追加。
+    * `dpopKeyThumbprint` 追加。
+
 
 1.0.2 (2019 年 08 月 09 日)
 ---------------------------
