@@ -57,8 +57,11 @@ class Jsonable(object):
             return attrType(value)
         # If the type is Enum or its subclass.
         elif issubclass(attrType, Enum):
-            # Find the enum entry whose name is 'value'.
-            return attrType[value]
+            if isinstance(value, attrType):
+                return value
+            else:
+                # Find the enum entry whose name is 'value'.
+                return attrType[value]
         else:
             # No conversion. For example, in case of attrType == str.
             return value
