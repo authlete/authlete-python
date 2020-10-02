@@ -68,7 +68,7 @@ class AuthleteApiImpl(AuthleteApi):
         if response.status_code < 200 or 300 <= response.status_code:
             message = self.__extractResultMessage(response.text)
             if message is None:
-                message = path + " API returned " + response.status_code
+                message = "{} API returned {}".format(path, response.status_code)
             raise AuthleteApiException(url, queryParams, data, message, None, response)
 
         # Create an instance of responseClass from the HTTP message body of the response.
@@ -98,7 +98,7 @@ class AuthleteApiImpl(AuthleteApi):
             # Convert the JSON string into a Python dictionary.
             dct = json.loads(body)
             return dct['resultMessage']
-        except:
+        except Exception:
             return None
 
 
@@ -192,6 +192,11 @@ class AuthleteApiImpl(AuthleteApi):
             request, TokenCreateResponse)
 
 
+    def tokenDelete(self, token):
+        self.__callServiceDeleteApi(
+            '/api/auth/token/delete/{}'.format(token))
+
+
     def tokenFail(self, request):
         return self.__callServicePostApi(
             '/api/auth/token/fail',
@@ -258,12 +263,12 @@ class AuthleteApiImpl(AuthleteApi):
 
     def deleteService(self, apiKey):
         self.__callServiceOwnerDeleteApi(
-            '/api/service/delete/' + apiKey)
+            '/api/service/delete/{}'.format(apiKey))
 
 
     def getService(self, apiKey):
         return self.__callServiceOwnerGetApi(
-            '/api/service/get/' + apiKey,
+            '/api/service/get/{}'.format(apiKey),
             Service)
 
 
@@ -277,7 +282,7 @@ class AuthleteApiImpl(AuthleteApi):
 
     def updateService(self, service):
         return self.__callServiceOwnerPostApi(
-            '/api/service/update/' + service.apiKey,
+            '/api/service/update/{}'.format(service.apiKey),
             service, Service)
 
 
@@ -330,12 +335,12 @@ class AuthleteApiImpl(AuthleteApi):
 
     def deleteClient(self, clientId):
         return self.__callServiceDeleteApi(
-            '/api/client/delete/' + clientId)
+            '/api/client/delete/{}'.format(clientId))
 
 
     def getClient(self, clientId):
         return self.__callServiceGetApi(
-            '/api/client/get/' + clientId,
+            '/api/client/get/{}'.format(clientId),
             Client)
 
 
@@ -350,13 +355,13 @@ class AuthleteApiImpl(AuthleteApi):
 
     def updateClient(self, client):
         return self.__callServicePostApi(
-            '/api/client/update/' + client.clientId,
+            '/api/client/update/{}'.format(client.clientId),
             client, Client)
 
 
     def getRequestableScopes(self, clientId):
         responseBody = self.__callServiceGetApi(
-            '/api/client/extension/requestable_scopes/get/' + clientId)
+            '/api/client/extension/requestable_scopes/get/{}'.format(clientId))
 
         dct = json.loads(responseBody)
 
@@ -367,7 +372,7 @@ class AuthleteApiImpl(AuthleteApi):
         requestBody = { 'requestableScopes': scopes }
 
         responseBody = self.__callServicePostApi(
-            '/api/client/extension/requestable_scopes/update/' + clientId,
+            '/api/client/extension/requestable_scopes/update/{}'.format(clientId),
             requestBody)
 
         dct = json.loads(responseBody)
@@ -377,14 +382,14 @@ class AuthleteApiImpl(AuthleteApi):
 
     def deleteRequestableScopes(self, clientId):
         self.__callServiceDeleteApi(
-            '/api/client/extension/requestable_scopes/delete/' + clientId)
+            '/api/client/extension/requestable_scopes/delete/{}'.format(clientId))
 
 
     def getGrantedScopes(self, clientId, subject):
         requestBody = { 'subject': subject }
 
         return self.__callServicePostApi(
-            '/api/client/granted_scopes/get/' + clientId,
+            '/api/client/granted_scopes/get/{}'.format(clientId),
             requestBody, GrantedScopesGetResponse)
 
 
@@ -392,7 +397,7 @@ class AuthleteApiImpl(AuthleteApi):
         requestBody = { 'subject': subject }
 
         self.__callServicePostApi(
-            '/api/client/granted_scopes/delete/' + clientId,
+            '/api/client/granted_scopes/delete/{}'.format(clientId),
             requestBody, ApiResponse)
 
 
@@ -401,7 +406,7 @@ class AuthleteApiImpl(AuthleteApi):
         request.subject = subject
 
         self.__callServicePostApi(
-            '/api/client/authorization/delete/' + clientId,
+            '/api/client/authorization/delete/{}'.format(clientId),
             request, ApiResponse)
 
 
@@ -413,13 +418,13 @@ class AuthleteApiImpl(AuthleteApi):
 
     def updateClientAuthorization(self, clientId, request):
         self.__callServicePostApi(
-            '/api/client/authorization/update/' + clientId,
+            '/api/client/authorization/update/{}'.format(clientId),
             request, ApiResponse)
 
 
     def refreshClientSecret(self, clientId):
         return self.__callServiceGetApi(
-            '/api/client/secret/refresh/' + clientId,
+            '/api/client/secret/refresh/{}'.format(clientId),
             ClientSecretRefreshResponse)
 
 
@@ -429,7 +434,7 @@ class AuthleteApiImpl(AuthleteApi):
         request.clilentSecret = clientSecret
 
         return self.__callServicePostApi(
-            '/api/client/secret/update/' + clientId,
+            '/api/client/secret/update/{}'.format(clientId),
             request, ClientSecretUpdateResponse)
 
 

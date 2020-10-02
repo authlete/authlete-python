@@ -1,6 +1,10 @@
 CHANGES
 =======
 
+- `AuthleteApi` class
+    * Added `tokenDelete` method.
+
+
 1.0.3 (2020-10-01)
 ------------------
 

@@ -115,6 +115,21 @@ class AuthleteApi(metaclass=ABCMeta):
 
 
     @abstractmethod
+    def tokenDelete(self, token):
+        """Delete an access token.
+
+        Call Authlete's /api/auth/token/delete/{token} API.
+
+        Args:
+            token (str) : An access token.
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
     def tokenFail(self, request):
         """Call Authlete's /api/auth/token/fail API.
 
