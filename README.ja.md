@@ -250,6 +250,7 @@ settings.readTimeout       = 5.0
 ##### トークン操作のためのメソッド群
 
 - `tokenCreate(request)`
+- `tokenDelete(token)`
 - `tokenUpdate(request)`
 
 ##### クライアント毎の要求可能スコープ群に関するメソッド群 (非推奨; Client API で代替可能)

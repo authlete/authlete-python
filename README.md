@@ -253,6 +253,7 @@ Methods in `AuthleteApi` interface can be divided into some categories.
 ##### Methods for Token Operations
 
 - `tokenCreate(request)`
+- `tokenDelete(token)`
 - `tokenUpdate(request)`
 
 ##### Methods for Requestable Scopes per Client (deprecated; Client APIs suffice)
