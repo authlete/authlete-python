@@ -4,6 +4,10 @@
 - `AuthleteApi` クラス
     * `tokenDelete` メソッド追加。
 
+- 新しいパッケージ
+    * `authlete.aws`
+    * `authlete.aws.apigateway`
+
 
 1.0.3 (2020 年 10 月 01 日)
 ---------------------------

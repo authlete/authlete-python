@@ -4,6 +4,10 @@ CHANGES
 - `AuthleteApi` class
     * Added `tokenDelete` method.
 
+- New packages
+    * `authlete.aws`
+    * `authlete.aws.apigateway`
+
 
 1.0.3 (2020-10-01)
 ------------------

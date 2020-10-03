@@ -34,6 +34,8 @@ setuptools.setup(
     url="https://github.com/authlete/authlete-python",
     packages=[
         "authlete.api",
+        "authlete.aws",
+        "authlete.aws.apigateway",
         "authlete.conf",
         "authlete.dto",
         "authlete.types",
