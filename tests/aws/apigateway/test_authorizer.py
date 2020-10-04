@@ -171,13 +171,11 @@ class TestAuthorizer(unittest.TestCase):
     def test_no_access_token(self):
         event = self.create_event()
 
-        try:
-            # Because 'event' contains no access token, handle() method
-            # will throw an exception that represents 'Unauthorized'.
-            self.authorizer().handle(event, None)
-            self.fail_unauthorized()
-        except Exception as exception:
-            self.assert_unauthorized(exception)
+        # Because 'event' contains no access token, handle() method
+        # returns an IAM policy that denies the resource access.
+        policy = self.authorizer(verbose=True).handle(event, None)
+
+        self.assert_deny(policy)
 
 
     @unittest.skipUnless(API, RSN)

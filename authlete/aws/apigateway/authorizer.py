@@ -88,15 +88,6 @@ class Authorizer:
         # It is a request to Authlete's /api/auth/introspection API.
         request = self.__build_introspection_request(event, context, scopes_determiner)
 
-        # If the given HTTP request contains no access token.
-        if request.token is None:
-            # Notify subclasses of lack of access token.
-            self.__on_no_access_token(event, context)
-
-            # 401 Unauthorized
-            self.unauthorized(event, context)
-            return None
-
         response  = None
         exception = None
 
@@ -166,23 +157,6 @@ class Authorizer:
 
     def on_enter(self, event, context):
         """Called when the handle() method starts.
-
-        Args:
-            event   (dict) : The event given to the authorizer.
-            context (dict) : The context given to the authorizer.
-        """
-        pass
-
-
-    def __on_no_access_token(self, event, context):
-        if self.verbose:
-            self.log('[on_no_access_token]')
-
-        self.on_no_access_token(event, context)
-
-
-    def on_no_access_token(self, event, context):
-        """Called when the HTTP request contains no access token.
 
         Args:
             event   (dict) : The event given to the authorizer.
