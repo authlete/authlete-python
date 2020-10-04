@@ -43,9 +43,9 @@ class TestAuthorizer(unittest.TestCase):
         return self.__class__.API
 
 
-    def authorizer(self):
+    def authorizer(self, verbose=False):
         # If verbose output is needed, give 'verbose=True' to the constructor.
-        return Authorizer()
+        return Authorizer(verbose=verbose)
 
 
     def get_client(self):
@@ -198,7 +198,7 @@ class TestAuthorizer(unittest.TestCase):
         token = self.create_token()
         event = self.create_event(token)
 
-        policy = Authorizer().handle(event, None)
+        policy = self.authorizer().handle(event, None)
 
         self.delete_token(token)
         self.assert_allow(policy)
@@ -293,3 +293,40 @@ class TestAuthorizer(unittest.TestCase):
             self.assert_unauthorized(exception)
 
         self.delete_token(token)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_hooks_1(self):
+        token = self.create_token()
+        event = self.create_event(token)
+
+        class CustomAuthorizer(Authorizer):
+            def __init__(self, api=None, verbose=False):
+                super().__init__(api, verbose)
+                self.records = {}
+
+            def on_enter(self, event, context):
+                self.records['on_enter'] = True
+
+            def on_introspection(self, event, context, request, response):
+                self.records['on_introspection'] = True
+
+            def on_allow(self, event, context, request, response, policy):
+                self.records['on_allow'] = True
+
+            def update_policy_context(self, event, context, request, response, ctx):
+                self.records['update_policy_context'] = True
+                ctx['hooked'] = True
+
+        authorizer = CustomAuthorizer()
+        policy     = authorizer.handle(event, None)
+        records    = authorizer.records
+
+        self.delete_token(token)
+        self.assert_allow(policy)
+
+        self.assertTrue(records.get('on_enter'))
+        self.assertTrue(records.get('on_introspection'))
+        self.assertTrue(records.get('on_allow'))
+        self.assertTrue(records.get('update_policy_context'))
+        self.assertTrue(policy['context'].get('hooked'))

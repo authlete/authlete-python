@@ -1,6 +1,12 @@
 CHANGES
 =======
 
+- `authlete.aws.apigateway.Authorizer` class
+    * Added `update_policy_context` method.
+    * Changed the content of `context` embedded in policies.
+    * Changed interfaces of some hook methods.
+
+
 1.1.0 (2020-10-04)
 ------------------
 

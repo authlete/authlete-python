@@ -120,7 +120,7 @@ class Authorizer:
             return None
 
         # Dispatch based on the result of the introspection.
-        return self.__dispatch(event, context, response)
+        return self.__dispatch(event, context, request, response)
 
 
     def determine_scopes(self, event, context, method, path):
@@ -129,15 +129,28 @@ class Authorizer:
         Subclasses are expected to override this method as necessary.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
-            method (str)   : The HTTP method.
-            path (str)     : The resource path.
+            method  (str)  : The HTTP method.
+            path    (str)  : The resource path.
 
         Returns:
             List of scope names or None.
         """
         return None
+
+
+    def update_policy_context(self, event, context, request, response, ctx):
+        """Update the context embedded in the policy.
+
+        Args:
+            event    (dict) : The event given to the authorizer.
+            context  (dict) : The context given to the authorizer.
+            request  (authlete.dto.IntrospectionRequest)  : Request to Authlete's introspection API.
+            response (authlete.dto.IntrospectionResponse) : Response from Authlete's introspection API.
+            ctx      (dict) : The policy context to update.
+        """
+        pass
 
 
     def __on_enter(self, event, context):
@@ -155,7 +168,7 @@ class Authorizer:
         """Called when the handle() method starts.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
         """
         pass
@@ -172,7 +185,7 @@ class Authorizer:
         """Called when the HTTP request contains no access token.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
         """
         pass
@@ -192,9 +205,9 @@ class Authorizer:
         """Called when the call to Authlete's introspection API failed.
 
         Args:
-            event (dict)   : The event given to the authorizer.
-            context (dict) : The context given to the authorizer.
-            request (authlete.dto.IntrospectionRequest) : Request to Authlete's introspection API.
+            event     (dict) : The event given to the authorizer.
+            context   (dict) : The context given to the authorizer.
+            request   (authlete.dto.IntrospectionRequest) : Request to Authlete's introspection API.
             exception (Exception) : Exception raised during the call to Authlete's introspection API. This may be AuthleteApiException.
         """
         pass
@@ -215,51 +228,53 @@ class Authorizer:
         """Called when introspection succeeded.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
             response (authlete.dto.IntrospectionResponse) : Response from Authlete's introspection API.
         """
         pass
 
 
-    def __on_allow(self, event, context, response, policy):
+    def __on_allow(self, event, context, request, response, policy):
         if self.verbose:
             self.log('[on_allow]')
             self.log('policy =')
             self.plog(policy)
 
-        self.on_allow(event, context, response, policy)
+        self.on_allow(event, context, request, response, policy)
 
 
-    def on_allow(self, event, context, response, policy):
+    def on_allow(self, event, context, request, response, policy):
         """Called when the access to the resource is allowed.
 
         Args:
-            event (dict)   : The event given to the authorizer.
-            context (dict) : The context given to the authorizer.
+            event    (dict) : The event given to the authorizer.
+            context  (dict) : The context given to the authorizer.
+            request  (authlete.dto.IntrospectionRequest)  : Request to Authlete's introspection API.
             response (authlete.dto.IntrospectionResponse) : Response from Authlete's introspection API.
-            policy (dict)  : IAM policy that allows the access to the resource.
+            policy   (dict) : IAM policy that allows the access to the resource.
         """
         pass
 
 
-    def __on_deny(self, event, context, response, policy):
+    def __on_deny(self, event, context, request, response, policy):
         if self.verbose:
             self.log('[on_deny]')
             self.log('policy =')
             self.plog(policy)
 
-        self.on_deny(event, context, response, policy)
+        self.on_deny(event, context, request, response, policy)
 
 
-    def on_deny(self, event, context, response, policy):
+    def on_deny(self, event, context, request, response, policy):
         """Called when the access to the resource is denied.
 
         Args:
-            event (dict)   : The event given to the authorizer.
-            context (dict) : The context given to the authorizer.
+            event    (dict) : The event given to the authorizer.
+            context  (dict) : The context given to the authorizer.
+            request  (authlete.dto.IntrospectionRequest)  : Request to Authlete's introspection API.
             response (authlete.dto.IntrospectionResponse) : Response from Authlete's introspection API.
-            policy (dict)  : IAM policy that denies the access to the resource.
+            policy   (dict) : IAM policy that denies the access to the resource.
         """
         pass
 
@@ -283,7 +298,7 @@ class Authorizer:
         """Called when an exception for '401 Unauthorized' is thrown.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
         """
         pass
@@ -309,7 +324,7 @@ class Authorizer:
         """Called when an exception for '500 Internal Server Error' is thrown.
 
         Args:
-            event (dict)   : The event given to the authorizer.
+            event   (dict) : The event given to the authorizer.
             context (dict) : The context given to the authorizer.
         """
         pass
@@ -423,29 +438,29 @@ class Authorizer:
             return None
 
 
-    def __dispatch(self, event, context, response):
+    def __dispatch(self, event, context, request, response):
         # The 'action' property contained in a response from Authlete's
         # introspection API indicates the HTTP status that should be returned
         # to the client application from the protected resource endpoint.
         action = response.action.name
 
-        # The arbitrary context included in the response from this authorizer
-        # to API Gateway. Here we embed the content of the introspection
-        # response as 'introspection'.
-        ctx = { 'introspection': loads(response.to_json()) }
+        # Optional context embedded in the policy returned from this authorizer.
+        # Here we embed some pieces of information in the introspection response
+        # into the context.
+        ctx = self.__build_policy_context(event, context, request, response)
 
         if action == 'OK':
             # The access token is valid. Tell API Gateway that the access to
             # the resource is allowed.
-            return self.__allow(event, context, response, ctx)
+            return self.__allow(event, context, request, response, ctx)
         elif action == 'BAD_REQUEST':
             # The access to the resource contains no access token.
             # Tell API Gateway that the access to the resource is denied.
-            return self.__deny(event, context, response, ctx)
+            return self.__deny(event, context, request, response, ctx)
         elif action == 'FORBIDDEN':
             # The access token does not cover the required scopes.
             # Tell API Gateway that the access to the resource is denied.
-            return self.__deny(event, context, response, ctx)
+            return self.__deny(event, context, request, response, ctx)
         elif action == 'UNAUTHORIZED':
             # The access token does not exist or has expired. Or, the
             # certificate thumbprint associated with the access token does
@@ -460,7 +475,33 @@ class Authorizer:
             return None
 
 
-    def __allow(self, event, context, response, ctx):
+    def __build_policy_context(self, event, context, request, response):
+        # Output from an Amazon API Gateway Lambda authorizer
+        # https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-output.html
+        #
+        #   Notice that you cannot set a JSON object or array as a valid value
+        #   of any key in the context map.
+        #
+        ctx = {
+            # Some pieces of information about the access token in the form of
+            # RFC 7662 (OAuth 2.0 Token Introspection), "2.2. Introspection Response".
+            'scope':     ' '.join(response.scopes) if response.scopes else None,
+            'client_id': response.clientIdAlias if response.clientIdAliasUsed else response.clientId,
+            'sub':       response.subject,
+            'exp':       int(response.expiresAt / 1000),
+            # 'challenge' here is a value of 'WWW-Authenticate' HTTP header that
+            # conforms to RFC 6750 (The OAuth 2.0 Authorization Framework: Bearer
+            # Token Usage), "3. The WWW-Authenticate Response Header Field".
+            'challenge': response.responseContent if response.action.name != 'OK' else None,
+        }
+
+        # Give subclasses a chance to update the policy context.
+        self.update_policy_context(event, context, request, response, ctx)
+
+        return ctx
+
+
+    def __allow(self, event, context, request, response, ctx):
         # Generate an IAM policy that allows the access to the resource.
         # The value of the 'subject' property contained in a response from
         # Authlete's introspection API is the subject of the user who is
@@ -468,12 +509,12 @@ class Authorizer:
         policy = self.__generate_policy(response.subject, 'Allow', event['methodArn'], ctx)
 
         # Notify subclasses that the access to the resource is allowed.
-        self.__on_allow(event, context, response, policy)
+        self.__on_allow(event, context, request, response, policy)
 
         return policy
 
 
-    def __deny(self, event, context, response, ctx):
+    def __deny(self, event, context, request, response, ctx):
         # Generate an IAM policy that denies the access to the resource.
         # The value of the 'subject' property contained in a response from
         # Authlete's introspection API is the subject of the user who is
@@ -481,7 +522,7 @@ class Authorizer:
         policy = self.__generate_policy(response.subject, 'Deny', event['methodArn'], ctx)
 
         # Notify subclasses that the access to the resource is denied.
-        self.__on_deny(event, context, response, policy)
+        self.__on_deny(event, context, request, response, policy)
 
         return policy
 
