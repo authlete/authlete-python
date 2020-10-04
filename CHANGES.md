@@ -1,6 +1,14 @@
 CHANGES
 =======
 
+1.1.2 (2020-10-04)
+------------------
+
+- `authlete.aws.apigateway.Authorizer` class
+    * Changed the behavior in the case of no access token.
+    * Removed `on_no_access_token` hook.
+
+
 1.1.1 (2020-10-04)
 ------------------
 
