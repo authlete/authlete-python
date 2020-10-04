@@ -1,6 +1,9 @@
 変更点
 ======
 
+1.1.3 (2020 年 10 月 04 日)
+---------------------------
+
 - `authlete.aws.apigateway.Authorizer` クラス
     * IAM ポリシーの `context` 内の `client_id` が常に文字列または `None` になることを保証。
 

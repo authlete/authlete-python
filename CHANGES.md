@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+1.1.3 (2020-10-04)
+------------------
+
 - `authlete.aws.apigateway.Authorizer` class
     * Ensured `client_id` in `context` in IAM policies is always a string or `None`.
 
