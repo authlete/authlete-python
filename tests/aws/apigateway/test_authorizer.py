@@ -173,7 +173,7 @@ class TestAuthorizer(unittest.TestCase):
 
         # Because 'event' contains no access token, handle() method
         # returns an IAM policy that denies the resource access.
-        policy = self.authorizer(verbose=True).handle(event, None)
+        policy = self.authorizer().handle(event, None)
 
         self.assert_deny(policy)
 
