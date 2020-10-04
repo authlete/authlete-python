@@ -1,6 +1,9 @@
 変更点
 ======
 
+1.1.1 (2020 年 10 月 04 日)
+---------------------------
+
 - `authlete.aws.apigateway.Authorizer` クラス
     * `update_policy_context` メソッド追加。
     * ポリシーに埋め込む `context` の内容変更。
