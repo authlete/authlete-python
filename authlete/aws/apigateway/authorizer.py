@@ -460,7 +460,7 @@ class Authorizer:
             # Some pieces of information about the access token in the form of
             # RFC 7662 (OAuth 2.0 Token Introspection), "2.2. Introspection Response".
             'scope':     ' '.join(response.scopes) if response.scopes else None,
-            'client_id': response.clientIdAlias if response.clientIdAliasUsed else response.clientId,
+            'client_id': self.__extract_client_id(response),
             'sub':       response.subject,
             'exp':       int(response.expiresAt / 1000),
             # 'challenge' here is a value of 'WWW-Authenticate' HTTP header that
@@ -473,6 +473,16 @@ class Authorizer:
         self.update_policy_context(event, context, request, response, ctx)
 
         return ctx
+
+
+    def __extract_client_id(self, response):
+        if response.clientIdAliasUsed:
+            return response.clientIdAlias
+
+        if response.clientId == 0:
+            return None
+
+        return str(response.clientId)
 
 
     def __allow(self, event, context, request, response, ctx):
