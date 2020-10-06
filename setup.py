@@ -24,7 +24,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="authlete",
-    version="1.1.3",
+    version="1.1.4",
     license="Apache License, Version 2.0",
     author="Authlete, Inc.",
     author_email="admin@authlete.com",

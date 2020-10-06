@@ -1,6 +1,9 @@
 CHANGES
 =======
 
+1.1.4 (2020-10-07)
+------------------
+
 - `authlete.aws.apigateway.Authorizer` class
     * Introduced `policy` property to control behaviors in error cases.
     * Changed the content of `context` embedded in policies.
