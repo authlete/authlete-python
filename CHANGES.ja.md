@@ -1,6 +1,9 @@
 変更点
 ======
 
+1.1.5 (2020 年 10 月 07 日)
+---------------------------
+
 - `authlete.aws.apigateway.Authorizer` クラス
     * Lambda Event Payload のタイプの "TOKEN" と "REQUEST" を両方サポートできるよう、
       アクセストークンの抽出方法を改善。
