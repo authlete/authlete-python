@@ -77,15 +77,26 @@ class TestAuthorizer(unittest.TestCase):
         self.api().tokenDelete(token)
 
 
-    def create_event(self, token=None, certificate=None, payloadVersion=2):
+    def create_event(self, token=None, certificate=None, payloadType='REQUEST', payloadVersion=2):
+        # Input to an Amazon API Gateway Lambda authorizer
+        # https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
         event = {
+            'type':      payloadType,
             'methodArn': self.__class__.ARN
         }
 
         if token:
-            event.update({
-                'authorizationToken': 'Bearer {}'.format(token)
-            })
+            value = 'Bearer {}'.format(token)
+            if payloadType == 'TOKEN':
+                event.update({
+                    'authorizationToken': value
+                })
+            else:
+                event.update({
+                    'headers': {
+                        'authorization': value
+                    }
+                })
 
         if certificate:
             dict_name = 'identity' if payloadVersion == 1 else 'authentication'
@@ -204,9 +215,20 @@ class TestAuthorizer(unittest.TestCase):
 
 
     @unittest.skipUnless(API, RSN)
-    def test_allow(self):
+    def test_payload_type_request(self):
         token = self.create_token()
         event = self.create_event(token)
+
+        policy = self.authorizer().handle(event, None)
+
+        self.delete_token(token)
+        self.assert_allow(policy)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_payload_type_token(self):
+        token = self.create_token()
+        event = self.create_event(token, payloadType='TOKEN')
 
         policy = self.authorizer().handle(event, None)
 
@@ -310,7 +332,7 @@ class TestAuthorizer(unittest.TestCase):
     def test_certificate_binding_payload_version_1(self):
         certificate = self.create_certificate()
         token = self.create_token(certificate)
-        event = self.create_event(token, certificate, 1)
+        event = self.create_event(token, certificate, payloadVersion=1)
 
         # Make the authorizer introspect the access token.
         policy = self.authorizer().handle(event, None)

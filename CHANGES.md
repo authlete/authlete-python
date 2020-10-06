@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+- `authlete.aws.apigateway.Authorizer` class
+    * Improved the way to extract an access token to support both "TOKEN" and
+      "REQUEST" types of Lambda Event Payload.
+
+
 1.1.4 (2020-10-07)
 ------------------
 

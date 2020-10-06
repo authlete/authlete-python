@@ -409,7 +409,7 @@ class Authorizer:
 
     def __extract_access_token(self, event):
         # The value of the Authorization HTTP header
-        header_value = event.get('authorizationToken')
+        header_value = self.__extract_authorization_header_value(event)
         if header_value is None:
             return None
 
@@ -422,9 +422,40 @@ class Authorizer:
         return match.group(1)
 
 
+    def __extract_authorization_header_value(self, event):
+        # The place of the Authorization header value differs depending on
+        # the type of "Lambda Event Payload".
+        #
+        #   Input to an Amazon API Gateway Lambda authorizer
+        #   https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
+        #
+        if event['type'] == 'TOKEN':
+            return event.get('authorizationToken')
+
+        # event['type'] == 'REQUEST'
+
+        headers = event.get('headers')
+        if headers is None:
+            return None
+
+        for name, value in headers.items():
+            if name.capitalize() == 'Authorization':
+                return value
+
+        return None
+
+
     def __extract_client_certificate(self, event):
         # Introducing mutual TLS authentication for Amazon API Gateway
         #   https://aws.amazon.com/blogs/compute/introducing-mutual-tls-authentication-for-amazon-api-gateway/
+
+        # NOTE
+        # Client certificate is unavailable if "Lambda Event Payload" type is "TOKEN".
+        # Make sure to choose "REQUEST".
+        #
+        #   Input to an Amazon API Gateway Lambda authorizer
+        #   https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
+        #
 
         try:
             # v2 payload
