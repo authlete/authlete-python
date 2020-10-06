@@ -43,9 +43,9 @@ class TestAuthorizer(unittest.TestCase):
         return self.__class__.API
 
 
-    def authorizer(self, verbose=False):
+    def authorizer(self, verbose=False, policy=True):
         # If verbose output is needed, give 'verbose=True' to the constructor.
-        return Authorizer(verbose=verbose)
+        return Authorizer(verbose=verbose, policy=policy)
 
 
     def get_client(self):
@@ -77,7 +77,7 @@ class TestAuthorizer(unittest.TestCase):
         self.api().tokenDelete(token)
 
 
-    def create_event(self, token=None, certificate=None):
+    def create_event(self, token=None, certificate=None, payloadVersion=2):
         event = {
             'methodArn': self.__class__.ARN
         }
@@ -88,9 +88,10 @@ class TestAuthorizer(unittest.TestCase):
             })
 
         if certificate:
+            dict_name = 'identity' if payloadVersion == 1 else 'authentication'
             event.update({
                 'requestContext': {
-                    'authentication': {
+                    dict_name: {
                         'clientCert': {
                             'clientCertPem': self.certificate_to_pem(certificate)
                         }
@@ -179,16 +180,27 @@ class TestAuthorizer(unittest.TestCase):
 
 
     @unittest.skipUnless(API, RSN)
-    def test_invalid_access_token(self):
+    def test_invalid_access_token_1(self):
         event = self.create_event('invalid-access-token')
 
         try:
             # Because 'event' contains no access token, handle() method
             # will throw an exception that represents 'Unauthorized'.
-            self.authorizer().handle(event, None)
+            self.authorizer(policy=False).handle(event, None)
             self.fail_unauthorized()
         except Exception as exception:
             self.assert_unauthorized(exception)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_invalid_access_token_2(self):
+        event = self.create_event('invalid-access-token')
+
+        # Because 'event' contains no access token, handle() method
+        # returns an IAM policy that denies the resource access.
+        policy = self.authorizer().handle(event, None)
+
+        self.assert_deny(policy)
 
 
     @unittest.skipUnless(API, RSN)
@@ -243,7 +255,7 @@ class TestAuthorizer(unittest.TestCase):
 
 
     @unittest.skipUnless(API, RSN)
-    def test_certificate_binding_1(self):
+    def test_certificate_binding_allow(self):
         certificate = self.create_certificate()
         token = self.create_token(certificate)
         event = self.create_event(token, certificate)
@@ -256,7 +268,7 @@ class TestAuthorizer(unittest.TestCase):
 
 
     @unittest.skipUnless(API, RSN)
-    def test_certificate_binding_2(self):
+    def test_certificate_binding_invalid_1(self):
         certificate = self.create_certificate()
         token = self.create_token(extra = {
             # Invalid thumbprint that is to be bound to the access token.
@@ -268,7 +280,7 @@ class TestAuthorizer(unittest.TestCase):
             # Because the certificate thumbprint bound to the access token is
             # different from that of the certificate in the 'event', handle()
             # method will throw an exception that represents 'Unauthorized'.
-            self.authorizer().handle(event, None)
+            self.authorizer(policy=False).handle(event, None)
             self.fail_unauthorized()
         except Exception as exception:
             self.assert_unauthorized(exception)
@@ -277,7 +289,38 @@ class TestAuthorizer(unittest.TestCase):
 
 
     @unittest.skipUnless(API, RSN)
-    def test_certificate_binding_3(self):
+    def test_certificate_binding_invalid_2(self):
+        certificate = self.create_certificate()
+        token = self.create_token(extra = {
+            # Invalid thumbprint that is to be bound to the access token.
+            'certificateThumbprint': secrets.token_urlsafe(32)
+        })
+        event = self.create_event(token, certificate)
+
+        # Because the certificate thumbprint bound to the access token is
+        # different from that of the certificate in the 'event', handle()
+        # method will return an IAM policy that denies the resource access.
+        policy = self.authorizer().handle(event, None)
+
+        self.delete_token(token)
+        self.assert_deny(policy)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_certificate_binding_payload_version_1(self):
+        certificate = self.create_certificate()
+        token = self.create_token(certificate)
+        event = self.create_event(token, certificate, 1)
+
+        # Make the authorizer introspect the access token.
+        policy = self.authorizer().handle(event, None)
+
+        self.delete_token(token)
+        self.assert_allow(policy)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_certificate_binding_no_certificate_1(self):
         certificate = self.create_certificate()
         token = self.create_token(certificate)
         event = self.create_event(token)
@@ -285,12 +328,26 @@ class TestAuthorizer(unittest.TestCase):
         try:
             # Because 'event' contains no client certificate, handle() method
             # will throw an exception that represents 'Unauthorized'.
-            self.authorizer().handle(event, None)
+            self.authorizer(policy=False).handle(event, None)
             self.fail_unauthorized()
         except Exception as exception:
             self.assert_unauthorized(exception)
 
         self.delete_token(token)
+
+
+    @unittest.skipUnless(API, RSN)
+    def test_certificate_binding_no_certificate_2(self):
+        certificate = self.create_certificate()
+        token = self.create_token(certificate)
+        event = self.create_event(token)
+
+        # Because 'event' contains no client certificate, handle() method
+        # will return an IAM policy that denies the resource access.
+        policy = self.authorizer().handle(event, None)
+
+        self.delete_token(token)
+        self.assert_deny(policy)
 
 
     @unittest.skipUnless(API, RSN)
@@ -312,7 +369,7 @@ class TestAuthorizer(unittest.TestCase):
             def on_allow(self, event, context, request, response, policy):
                 self.records['on_allow'] = True
 
-            def update_policy_context(self, event, context, request, response, ctx):
+            def update_policy_context(self, event, context, request, response, exception, ctx):
                 self.records['update_policy_context'] = True
                 ctx['hooked'] = True
 
@@ -327,4 +384,8 @@ class TestAuthorizer(unittest.TestCase):
         self.assertTrue(records.get('on_introspection'))
         self.assertTrue(records.get('on_allow'))
         self.assertTrue(records.get('update_policy_context'))
-        self.assertTrue(policy['context'].get('hooked'))
+
+        context = policy['context']
+        self.assertTrue(context.get('hooked'))
+        self.assertIsNotNone(context.get('introspection_request'))
+        self.assertIsNotNone(context.get('introspection_response'))
