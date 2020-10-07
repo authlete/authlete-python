@@ -324,6 +324,30 @@ Authlete 2.1 以降で利用できる機能：
 詳細情報は [スペックシート](https://www.authlete.com/ja/legal/spec_sheet/)
 を参照してください。
 
+AWS サポート
+------------
+
+[Amazon API Gateway](https://aws.amazon.com/api-gateway/) 上に構築した API を、
+[RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html), OAuth 2.0 Mutual-TLS
+Client Authentication and Certificate-Bound Access Tokens
+に準拠する「証明書紐付くアクセストークン」により保護する
+[Lambda Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
+の実装を支援するユーティリティークラスが、このライブラリには含まれています。
+下記は、そのユーティリティークラスを用いて書かれた、短いものの完全に動作する
+Lambda Authorizer の実装例です。
+
+```python
+from authlete.aws.apigateway.authorizer import Authorizer
+
+authorizer = Authorizer()
+
+def lambda_handler(event, context):
+    return authorizer.handle(event, context)
+```
+
+詳細は "[Financial-grade Amazon API Gateway](https://www.authlete.com/developers/tutorial/financial_grade_apigateway/)"
+を参照してください。
+
 その他の情報
 ------------
 

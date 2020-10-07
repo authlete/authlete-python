@@ -41,7 +41,7 @@ class Authorizer:
         has to tell Amazon API Gateway to return "401 Unauthorized" to the API
         caller in some cases (e.g. when the presented access token has expired).
         According to AWS's technical documents and tutorials, the authorizer
-        has to thrown an exception with a message ``Unauthorized`` to achieve it.
+        has to throw an exception with a message ``Unauthorized`` to achieve it.
         However, such simple exception drops all valuable information about the
         "Unauthorized" response and makes debugging very hard.
 
@@ -427,7 +427,7 @@ class Authorizer:
         # the type of "Lambda Event Payload".
         #
         #   Input to an Amazon API Gateway Lambda authorizer
-        #   https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
+        #   https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
         #
         if event['type'] == 'TOKEN':
             return event.get('authorizationToken')
@@ -454,7 +454,7 @@ class Authorizer:
         # Make sure to choose "REQUEST".
         #
         #   Input to an Amazon API Gateway Lambda authorizer
-        #   https://docs.amazonaws.cn/en_us/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
+        #   https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-lambda-authorizer-input.html
         #
 
         try:

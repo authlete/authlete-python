@@ -327,6 +327,29 @@ Features available in Authlete 2.1 and onwards:
 
 See [Spec Sheet](https://www.authlete.com/legal/spec_sheet/) for further details.
 
+AWS Support
+-----------
+
+This library contains a utility class to help implement a
+[Lambda Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
+that can protect APIs built on [Amazon API Gateway](https://aws.amazon.com/api-gateway/)
+with "certificate-bound access tokens" that conform to
+[RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html), OAuth 2.0 Mutual-TLS
+Client Authentication and Certificate-Bound Access Tokens. Below is a short
+but completely working example of Lambda authorizer implementation that is
+written using the utility class.
+
+```python
+from authlete.aws.apigateway.authorizer import Authorizer
+
+authorizer = Authorizer()
+
+def lambda_handler(event, context):
+    return authorizer.handle(event, context)
+```
+
+See "[Financial-grade Amazon API Gateway](https://www.authlete.com/developers/tutorial/financial_grade_apigateway/)" for details.
+
 See Also
 --------
 
