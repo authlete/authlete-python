@@ -328,11 +328,12 @@ AWS サポート
 ------------
 
 [Amazon API Gateway](https://aws.amazon.com/api-gateway/) 上に構築した API を、
-[RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html), OAuth 2.0 Mutual-TLS
-Client Authentication and Certificate-Bound Access Tokens
-に準拠する「証明書紐付くアクセストークン」により保護する
+[RFC 8705](https://www.rfc-editor.org/rfc/rfc8705.html) (OAuth 2.0 Mutual-TLS
+Client Authentication and Certificate-Bound Access Tokens)
+に準拠する「証明書に紐付くアクセストークン」により保護する
 [Lambda Authorizer](https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-use-lambda-authorizer.html)
 の実装を支援するユーティリティークラスが、このライブラリには含まれています。
+
 下記は、そのユーティリティークラスを用いて書かれた、短いものの完全に動作する
 Lambda Authorizer の実装例です。
 
