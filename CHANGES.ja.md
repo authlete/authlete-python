@@ -1,6 +1,9 @@
 変更点
 ======
 
+1.2.1 (2020 年 11 月 05 日)
+---------------------------
+
 - `Service` クラス
     * `claimShortcutRestrictive` 追加。
     * `scopeRequired` 追加。
