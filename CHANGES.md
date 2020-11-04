@@ -1,6 +1,11 @@
 CHANGES
 =======
 
+- `Service` class
+    * Added `claimShortcutRestrictive`.
+    * Added `scopeRequired`.
+
+
 1.2.0 (2020-10-08)
 ------------------
 

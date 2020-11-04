@@ -137,6 +137,8 @@ class Service(Jsonable):
             'parRequired':                              bool,
             'requestObjectRequired':                    bool,
             'traditionalRequestObjectProcessingApplied':bool,
+            'claimShortcutRestrictive':                 bool,
+            'scopeRequired':                            bool,
         }
 
         super().__init__(nameAndValues, nameAndTypes)
