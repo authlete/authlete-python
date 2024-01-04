@@ -44,8 +44,12 @@ clean-python:
 	@find . -name "*.py[cdo]" -exec rm -rf '{}' \;
 
 
+# Whe you shouldn't invoke setup.py directly
+#   https://blog.ganssle.io/articles/2021/10/setup-py-deprecated.html
+#
 dist:
-	$(PYTHON) setup.py sdist bdist_wheel
+#	$(PYTHON) setup.py sdist bdist_wheel
+	$(PYTHON) -m build --sdist --wheel
 
 
 help:
