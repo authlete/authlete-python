@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,13 +21,16 @@ from authlete.types.jsonable import Jsonable
 class AuthleteConfiguration(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
+            'apiVersion':              str,
             'baseUrl':                 str,
             'serviceOwnerApiKey':      str,
             'serviceOwnerApiSecret':   str,
             'serviceOwnerAccessToken': str,
             'serviceApiKey':           str,
             'serviceApiSecret':        str,
-            'serviceAccessToken':      str
+            'serviceAccessToken':      str,
+            'dpopKey':                 str,
+            'clientCertificate':       str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

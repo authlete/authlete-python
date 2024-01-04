@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,9 +21,11 @@ from authlete.types.jsonable import Jsonable
 class RevocationRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'parameters':   str,
-            'clientId':     str,
-            'clientSecret': str
+            'parameters':            str,
+            'clientId':              str,
+            'clientSecret':          str,
+            'clientCertificate':     str,
+            'clientCertificatePath': str   # list of str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

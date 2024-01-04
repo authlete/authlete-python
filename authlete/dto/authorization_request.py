@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -21,7 +21,8 @@ from authlete.types.jsonable import Jsonable
 class AuthorizationRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'parameters': str
+            'parameters': str,
+            'context':    str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

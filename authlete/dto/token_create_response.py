@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,6 +16,7 @@
 
 
 from authlete.dto.api_response        import ApiResponse
+from authlete.dto.authz_details       import AuthzDetails
 from authlete.dto.property            import Property
 from authlete.dto.token_create_action import TokenCreateAction
 from authlete.types.grant_type        import GrantType
@@ -24,17 +25,22 @@ from authlete.types.grant_type        import GrantType
 class TokenCreateResponse(ApiResponse):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'action':          TokenCreateAction,
-            'grantType':       GrantType,
-            'clientId':        int,
-            'subject':         str,
-            'scopes':          str,               # list of str
-            'accessToken':     str,
-            'tokenType':       str,
-            'expiresIn':       int,
-            'expiresAt':       int,
-            'refreshToken':    str,
-            'properties':      Property           # list of Property
+            'action':                TokenCreateAction,
+            'grantType':             GrantType,
+            'clientId':              int,
+            'subject':               str,
+            'scopes':                str,                # list of str
+            'accessToken':           str,
+            'tokenType':             str,
+            'expiresIn':             int,
+            'expiresAt':             int,
+            'refreshToken':          str,
+            'properties':            Property,           # list of Property
+            'jwtAccessToken':        str,
+            'authorizationDetails':  AuthzDetails,
+            'forExternalAttachment': bool,
+            'tokenId':               str,
+            'refreshTokenScopes':    str                 # list of str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

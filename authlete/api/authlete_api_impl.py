@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -39,10 +39,27 @@ class AuthleteApiImpl(AuthleteApi):
         if cnf.baseUrl is None:
             raise RuntimeError("'baseUrl' of the configuration is None.")
 
+        self._apiVersion              = cnf.apiVersion
         self._baseUrl                 = cnf.baseUrl.rstrip('/')
         self._serviceOwnerCredentials = (cnf.serviceOwnerApiKey, cnf.serviceOwnerApiSecret)
         self._serviceCredentials      = (cnf.serviceApiKey,      cnf.serviceApiSecret)
         self._settings                = Settings()
+
+        # When the version of Authlete APIs is 3 (or higher).
+        if cnf.apiVersion == "V3":
+            # An access token is required for accessing the Authlete APIs.
+            if cnf.serviceAccessToken is None:
+                raise RuntimeError("'serviceAccessToken' of the configuration is None.")
+            self._accessToken = cnf.serviceAccessToken
+
+            # Some Authlete APIs require the prefix '/api/{serviceId}'
+            self._apiPrefix = "/api/{}".format(cnf.serviceApiKey)
+        else:
+            # No access token is required for accessing the Authlete APIs.
+            self._accessToken = None
+
+            # All Authlete APIs have the same prefix '/api'
+            self._apiPrefix = "/api"
 
 
     def __callApi(self, method, credentials, path, queryParams, requestBody, responseClass):
@@ -57,9 +74,14 @@ class AuthleteApiImpl(AuthleteApi):
         else:
             data = json.dumps(requestBody)
 
+        # If an access token is provided for accessing the Authlete API.
+        if self._accessToken is not None:
+            # Turn off the Basic Authentication with the pair of API key and API secret.
+            credentials = None
+
         try:
             # Call the Authlete API.
-            response = self.__sendRequest(method, url, queryParams, data, credentials)
+            response = self.__sendRequest(method, url, queryParams, data, credentials, self._accessToken)
         except Exception as cause:
             raise AuthleteApiException(
                 url, queryParams, data, "API call to " + path + " failed.", cause)
@@ -75,12 +97,16 @@ class AuthleteApiImpl(AuthleteApi):
         return self.__deserializeResponseBody(response.text, responseClass)
 
 
-    def __sendRequest(self, method, url, params, data, credentials):
+    def __sendRequest(self, method, url, params, data, credentials, accessToken):
         # headers
         headers = {
             "Accept":       "application/json",
             "Content-Type": "application/json"
         }
+
+        # If an access token is provided.
+        if accessToken is not None:
+            headers["Authorization"] = "Bearer {}".format(accessToken)
 
         # timeout
         timeout = (self._settings.connectionTimeout, self._settings.readTimeout)
@@ -164,54 +190,60 @@ class AuthleteApiImpl(AuthleteApi):
 
     def authorization(self, request):
         return self.__callServicePostApi(
-            '/api/auth/authorization',
+            '{}/auth/authorization'.format(self._apiPrefix),
             request, AuthorizationResponse)
 
 
     def authorizationFail(self, request):
         return self.__callServicePostApi(
-            '/api/auth/authorization/fail',
+            '{}/auth/authorization/fail'.format(self._apiPrefix),
             request, AuthorizationFailResponse)
 
 
     def authorizationIssue(self, request):
         return self.__callServicePostApi(
-            '/api/auth/authorization/issue',
+            '{}/auth/authorization/issue'.format(self._apiPrefix),
             request, AuthorizationIssueResponse)
 
 
     def token(self, request):
         return self.__callServicePostApi(
-            '/api/auth/token',
+            '{}/auth/token'.format(self._apiPrefix),
             request, TokenResponse)
 
 
     def tokenCreate(self, request):
         return self.__callServicePostApi(
-            '/api/auth/token/create',
+            '{}/auth/token/create'.format(self._apiPrefix),
             request, TokenCreateResponse)
 
 
     def tokenDelete(self, token):
         self.__callServiceDeleteApi(
-            '/api/auth/token/delete/{}'.format(token))
+            '{}/auth/token/delete/{}'.format(self._apiPrefix, token))
 
 
     def tokenFail(self, request):
         return self.__callServicePostApi(
-            '/api/auth/token/fail',
+            '{}/auth/token/fail'.format(self._apiPrefix),
             request, TokenFailResponse)
 
 
     def tokenIssue(self, request):
         return self.__callServicePostApi(
-            '/api/auth/token/issue',
+            '{}/auth/token/issue'.format(self._apiPrefix),
             request, TokenIssueResponse)
+
+
+    def tokenRevoke(self, request):
+        return self.__callServicePostApi(
+            '{}/auth/token/revoke'.format(self._apiPrefix),
+            request, TokenRevokeResponse)
 
 
     def tokenUpdate(self, request):
         return self.__callServicePostApi(
-            '/api/auth/token/update',
+            '{}/auth/token/update'.format(self._apiPrefix),
             request, TokenUpdateResponse)
 
 
@@ -221,37 +253,37 @@ class AuthleteApiImpl(AuthleteApi):
             subject=subject, start=start, end=end)
 
         return self.__callServiceGetApi(
-            '/api/auth/token/get/list',
+            '{}/auth/token/get/list'.format(self._apiPrefix),
             TokenListResponse, params)
 
 
     def revocation(self, request):
         return self.__callServicePostApi(
-            '/api/auth/revocation',
+            '{}/auth/revocation'.format(self._apiPrefix),
             request, RevocationResponse)
 
 
     def userinfo(self, request):
         return self.__callServicePostApi(
-            '/api/auth/userinfo',
+            '{}/auth/userinfo'.format(self._apiPrefix),
             request, UserInfoResponse)
 
 
     def userinfoIssue(self, request):
         return self.__callServicePostApi(
-            '/api/auth/userinfo/issue',
+            '{}/auth/userinfo/issue'.format(self._apiPrefix),
             request, UserInfoIssueResponse)
 
 
     def introspection(self, request):
         return self.__callServicePostApi(
-            '/api/auth/introspection',
+            '{}/auth/introspection'.format(self._apiPrefix),
             request, IntrospectionResponse)
 
 
     def standardIntrospection(self, request):
         return self.__callServicePostApi(
-            '/api/auth/introspection/standard',
+            '{}/auth/introspection/standard'.format(self._apiPrefix),
             request, StandardIntrospectionResponse)
 
 
@@ -262,14 +294,21 @@ class AuthleteApiImpl(AuthleteApi):
 
 
     def deleteService(self, apiKey):
-        self.__callServiceOwnerDeleteApi(
-            '/api/service/delete/{}'.format(apiKey))
+        if self._apiVersion == "V3":
+            path = '{}/service/delete'.format(self._apiPrefix)
+        else:
+            path = '{}/service/delete/{}'.format(self._apiPrefix, apiKey)
+
+        self.__callServiceOwnerDeleteApi(path)
 
 
     def getService(self, apiKey):
-        return self.__callServiceOwnerGetApi(
-            '/api/service/get/{}'.format(apiKey),
-            Service)
+        if self._apiVersion == "V3":
+            path = '{}/service/get'.format(self._apiPrefix)
+        else:
+            path = '{}/service/get/{}'.format(self._apiPrefix, apiKey)
+
+        return self.__callServiceOwnerGetApi(path, Service)
 
 
     def getServiceList(self, start=None, end=None):
@@ -281,9 +320,12 @@ class AuthleteApiImpl(AuthleteApi):
 
 
     def updateService(self, service):
-        return self.__callServiceOwnerPostApi(
-            '/api/service/update/{}'.format(service.apiKey),
-            service, Service)
+        if self._apiVersion == "V3":
+            path = '{}/service/update'.format(self._apiPrefix)
+        else:
+            path = '{}/service/update/{}'.format(self._apiPrefix, service.apiKey)
+
+        return self.__callServiceOwnerPostApi(path, service, Service)
 
 
     def getServiceJwks(self, pretty=True, includePrivateKeys=False):
@@ -291,56 +333,58 @@ class AuthleteApiImpl(AuthleteApi):
             pretty=pretty, includePrivateKeys=includePrivateKeys)
 
         return self.__callServiceGetApi(
-            '/api/service/jwks/get',
+            '{}/service/jwks/get'.format(self._apiPrefix),
             None, params)
 
 
-    def getServiceConfiguration(self, pretty=True):
-        params = self.__buildDict(pretty=pretty)
+    def getServiceConfiguration(self, request=None):
+        if request is None:
+            request = ServiceConfigurationRequest()
+            request.pretty = True
 
-        return self.__callServiceGetApi(
-            '/api/service/configuration',
-            None, params)
+        return self.__callServicePostApi(
+            '{}/service/configuration'.format(self._apiPrefix),
+            request)
 
 
     def createClient(self, client):
         return self.__callServicePostApi(
-            '/api/client/create',
+            '{}/client/create'.format(self._apiPrefix),
             client, Client)
 
 
     def dynamicClientRegister(self, request):
         return self.__callServicePostApi(
-            '/api/client/registration',
+            '{}/client/registration'.format(self._apiPrefix),
             request, ClientRegistrationResponse)
 
 
     def dynamicClientGet(self, request):
         return self.__callServicePostApi(
-            '/api/client/registration/get',
+            '{}/client/registration/get'.format(self._apiPrefix),
             request, ClientRegistrationResponse)
 
 
     def dynamicClientUpdate(self, request):
         return self.__callServicePostApi(
-            '/api/client/registration/update',
+            '{}/client/registration/update'.format(self._apiPrefix),
             request, ClientRegistrationResponse)
 
 
     def dynamicClientDelete(self, request):
         return self.__callServicePostApi(
-            '/api/client/registration/delete',
+            '{}/client/registration/delete'.format(self._apiPrefix),
             request, ClientRegistrationResponse)
 
 
     def deleteClient(self, clientId):
         return self.__callServiceDeleteApi(
-            '/api/client/delete/{}'.format(clientId))
+            '{}/client/delete/{}'.format(self._apiPrefix, clientId))
 
 
     def getClient(self, clientId):
         return self.__callServiceGetApi(
-            '/api/client/get/{}'.format(clientId),
+            '{}/client/get/{}'.format(self._apiPrefix, clientId),
             Client)
 
 
@@ -349,19 +393,19 @@ class AuthleteApiImpl(AuthleteApi):
             developer=developer, start=start, end=end)
 
         return self.__callServiceGetApi(
-            '/api/client/get/list',
+            '{}/client/get/list'.format(self._apiPrefix),
             ClientListResponse, params)
 
 
     def updateClient(self, client):
         return self.__callServicePostApi(
-            '/api/client/update/{}'.format(client.clientId),
+            '{}/client/update/{}'.format(self._apiPrefix, client.clientId),
             client, Client)
 
 
     def getRequestableScopes(self, clientId):
         responseBody = self.__callServiceGetApi(
-            '/api/client/extension/requestable_scopes/get/{}'.format(clientId))
+            '{}/client/extension/requestable_scopes/get/{}'.format(self._apiPrefix, clientId))
 
         dct = json.loads(responseBody)
 
@@ -372,7 +416,7 @@ class AuthleteApiImpl(AuthleteApi):
         requestBody = { 'requestableScopes': scopes }
 
         responseBody = self.__callServicePostApi(
-            '/api/client/extension/requestable_scopes/update/{}'.format(clientId),
+            '{}/client/extension/requestable_scopes/update/{}'.format(self._apiPrefix, clientId),
             requestBody)
 
         dct = json.loads(responseBody)
@@ -382,14 +426,14 @@ class AuthleteApiImpl(AuthleteApi):
 
     def deleteRequestableScopes(self, clientId):
         self.__callServiceDeleteApi(
-            '/api/client/extension/requestable_scopes/delete/{}'.format(clientId))
+            '{}/client/extension/requestable_scopes/delete/{}'.format(self._apiPrefix, clientId))
 
 
     def getGrantedScopes(self, clientId, subject):
         requestBody = { 'subject': subject }
 
         return self.__callServicePostApi(
-            '/api/client/granted_scopes/get/{}'.format(clientId),
+            '{}/client/granted_scopes/get/{}'.format(self._apiPrefix, clientId),
             requestBody, GrantedScopesGetResponse)
 
 
@@ -397,7 +441,7 @@ class AuthleteApiImpl(AuthleteApi):
         requestBody = { 'subject': subject }
 
         self.__callServicePostApi(
-            '/api/client/granted_scopes/delete/{}'.format(clientId),
+            '{}/client/granted_scopes/delete/{}'.format(self._apiPrefix, clientId),
             requestBody, ApiResponse)
 
 
@@ -406,25 +450,25 @@ class AuthleteApiImpl(AuthleteApi):
         request.subject = subject
 
         self.__callServicePostApi(
-            '/api/client/authorization/delete/{}'.format(clientId),
+            '{}/client/authorization/delete/{}'.format(self._apiPrefix, clientId),
             request, ApiResponse)
 
 
     def getClientAuthorizationList(self, request):
         return self.__callServicePostApi(
-            '/api/client/authorization/get/list',
+            '{}/client/authorization/get/list'.format(self._apiPrefix),
             request, AuthorizedClientListResponse)
 
 
     def updateClientAuthorization(self, clientId, request):
         self.__callServicePostApi(
-            '/api/client/authorization/update/{}'.format(clientId),
+            '{}/client/authorization/update/{}'.format(self._apiPrefix, clientId),
             request, ApiResponse)
 
 
     def refreshClientSecret(self, clientId):
         return self.__callServiceGetApi(
-            '/api/client/secret/refresh/{}'.format(clientId),
+            '{}/client/secret/refresh/{}'.format(self._apiPrefix, clientId),
             ClientSecretRefreshResponse)
 
 
@@ -434,59 +478,200 @@ class AuthleteApiImpl(AuthleteApi):
         request.clilentSecret = clientSecret
 
         return self.__callServicePostApi(
-            '/api/client/secret/update/{}'.format(clientId),
+            '{}/client/secret/update/{}'.format(self._apiPrefix, clientId),
             request, ClientSecretUpdateResponse)
 
 
     def verifyJose(self, request):
         return self.__callServicePostApi(
-            '/api/jose/verify',
+            '{}/jose/verify'.format(self._apiPrefix),
             request, JoseVerifyResponse)
 
 
     def backchannelAuthentication(self, request):
         return self.__callServicePostApi(
-            '/api/backchannel/authentication',
+            '{}/backchannel/authentication'.format(self._apiPrefix),
             request, BackchannelAuthenticationResponse)
 
 
     def backchannelAuthenticationIssue(self, request):
         return self.__callServicePostApi(
-            '/api/backchannel/authentication/issue',
+            '{}/backchannel/authentication/issue'.format(self._apiPrefix),
             request, BackchannelAuthenticationIssueResponse)
 
 
     def backchannelAuthenticationFail(self, request):
         return self.__callServicePostApi(
-            '/api/backchannel/authentication/fail',
+            '{}/backchannel/authentication/fail'.format(self._apiPrefix),
             request, BackchannelAuthenticationFailResponse)
 
 
     def backchannelAuthenticationComplete(self, request):
         return self.__callServicePostApi(
-            '/api/backchannel/authentication/complete',
+            '{}/backchannel/authentication/complete'.format(self._apiPrefix),
             request, BackchannelAuthenticationCompleteResponse)
 
 
     def deviceAuthorization(self, request):
         return self.__callServicePostApi(
-            '/api/device/authorization',
+            '{}/device/authorization'.format(self._apiPrefix),
             request, DeviceAuthorizationResponse)
 
 
     def deviceComplete(self, request):
         return self.__callServicePostApi(
-            '/api/device/complete',
+            '{}/device/complete'.format(self._apiPrefix),
             request, DeviceCompleteResponse)
 
 
     def deviceVerification(self, request):
         return self.__callServicePostApi(
-            '/api/device/verification',
+            '{}/device/verification'.format(self._apiPrefix),
             request, DeviceVerificationResponse)
 
 
     def pushAuthorizationRequest(self, request):
         return self.__callServicePostApi(
-            '/api/pushed_auth_req',
+            '{}/pushed_auth_req'.format(self._apiPrefix),
             request, PushedAuthReqResponse)
+
+
+    def hskCreate(self, request):
+        return self.__callServicePostApi(
+            '{}/hsk/create'.format(self._apiPrefix),
+            request, HskResponse)
+
+
+    def hskDelete(self, handle):
+        return self.__callServiceGetApi(
+            '{}/hsk/delete/{}'.format(self._apiPrefix, handle),
+            HskResponse)
+
+
+    def hskGet(self, handle):
+        return self.__callServiceGetApi(
+            '{}/hsk/get/{}'.format(self._apiPrefix, handle),
+            HskResponse)
+
+
+    def hskGetList(self):
+        return self.__callServiceGetApi(
+            '{}/hsk/get/list'.format(self._apiPrefix),
+            HskListResponse)
+
+
+    def echo(self, parameters):
+        responseBody = self.__callServiceGetApi(
+            '/misc/echo', None, parameters)
+
+        return json.loads(responseBody)
+
+
+    def gm(self, request):
+        return self.__callServicePostApi(
+            '{}/gm'.format(self._apiPrefix),
+            request, GrantManagementResponse)
+
+
+    def updateClientLockFlag(self, clientIdentifier, clientLocked):
+        requestBody = { 'clientLocked': clientLocked }
+
+        self.__callServicePostApi(
+            '{}/client/lock_flag/update/{}'.format(self._apiPrefix, clientIdentifier),
+            requestBody)
+
+
+    def federationConfiguration(self, request):
+        return self.__callServicePostApi(
+            '{}/federation/configuration'.format(self._apiPrefix),
+            request, FederationConfigurationResponse)
+
+
+    def federationRegistration(self, request):
+        return self.__callServicePostApi(
+            '{}/federation/registration'.format(self._apiPrefix),
+            request, FederationRegistrationResponse)
+
+
+    def credentialIssuerMetadata(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/metadata'.format(self._apiPrefix),
+            request, CredentialIssuerMetadataResponse)
+
+
+    def credentialJwtIssuerMetadata(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/jwtissuer'.format(self._apiPrefix),
+            request, CredentialJwtIssuerMetadataResponse)
+
+
+    def credentialIssuerJwks(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/jwks'.format(self._apiPrefix),
+            request, CredentialIssuerJwksResponse)
+
+
+    def credentialOfferCreate(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/offer/create'.format(self._apiPrefix),
+            request, CredentialOfferCreateResponse)
+
+
+    def credentialOfferInfo(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/offer/info'.format(self._apiPrefix),
+            request, CredentialOfferInfoResponse)
+
+
+    def credentialSingleParse(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/single/parse'.format(self._apiPrefix),
+            request, CredentialSingleParseResponse)
+
+
+    def credentialSingleIssue(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/single/issue'.format(self._apiPrefix),
+            request, CredentialSingleIssueResponse)
+
+
+    def credentialBatchParse(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/batch/parse'.format(self._apiPrefix),
+            request, CredentialBatchParseResponse)
+
+
+    def credentialBatchIssue(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/batch/issue'.format(self._apiPrefix),
+            request, CredentialBatchIssueResponse)
+
+
+    def credentialDeferredParse(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/deferred/parse'.format(self._apiPrefix),
+            request, CredentialDeferredParseResponse)
+
+
+    def credentialDeferredIssue(self, request):
+        return self.__callServicePostApi(
+            '{}/vci/deferred/issue'.format(self._apiPrefix),
+            request, CredentialDeferredIssueResponse)
+
+
+    def idTokenReissue(self, request):
+        return self.__callServicePostApi(
+            '{}/idtoken/reissue'.format(self._apiPrefix),
+            request, IDTokenReissueResponse)
+
+
+    def authorizationTicketInfo(self, request):
+        return self.__callServicePostApi(
+            '{}/auth/authorization/ticket/info'.format(self._apiPrefix),
+            request, AuthorizationTicketInfoResponse)
+
+
+    def authorizationTicketUpdate(self, request):
+        return self.__callServicePostApi(
+            '{}/auth/authorization/ticket/update'.format(self._apiPrefix),
+            request, AuthorizationTicketUpdateResponse)

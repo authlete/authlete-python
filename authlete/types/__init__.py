@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,12 +16,17 @@
 
 
 from .application_type              import ApplicationType
+from .attachment_type               import AttachmentType
 from .claim_type                    import ClaimType
 from .client_auth_method            import ClientAuthMethod
+from .client_registration_type      import ClientRegistrationType
 from .client_type                   import ClientType
 from .code_challenge_method         import CodeChallengeMethod
 from .delivery_mode                 import DeliveryMode
 from .display                       import Display
+from .entity_type                   import EntityType
+from .fapi_mode                     import FapiMode
+from .gm_action                     import GMAction
 from .grant_type                    import GrantType
 from .jsonable                      import Jsonable
 from .jwe_alg                       import JWEAlg
@@ -34,5 +39,6 @@ from .service_profile               import ServiceProfile
 from .sns                           import Sns
 from .standard_claims               import StandardClaims
 from .subject_type                  import SubjectType
+from .token_type                    import TokenType
 from .user_code_charset             import UserCodeCharset
 from .user_identification_hint_type import UserIdentificationHintType

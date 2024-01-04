@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,8 +16,12 @@
 
 
 from authlete.dto.api_response         import ApiResponse
+from authlete.dto.authz_details        import AuthzDetails
+from authlete.dto.grant                import Grant
 from authlete.dto.introspection_action import IntrospectionAction
+from authlete.dto.pair                 import Pair
 from authlete.dto.property             import Property
+from authlete.types.grant_type         import GrantType
 
 
 class IntrospectionResponse(ApiResponse):
@@ -26,19 +30,36 @@ class IntrospectionResponse(ApiResponse):
             'action':                IntrospectionAction,
             'clientId':              int,
             'subject':               str,
-            'scopes':                str,       # list of str
+            'scopes':                str,           # list of str
             'existent':              bool,
             'usable':                bool,
             'sufficient':            bool,
             'refreshable':           bool,
             'responseContent':       str,
             'expiresAt':             int,
-            'properties':            Property,  # list of Property
+            'properties':            Property,      # list of Property
             'clientIdAlias':         str,
             'clientIdAliasUsed':     bool,
+            'clientEntityId':        str,
+            'clientEntityIdUsed':    bool,
             'certificateThumbprint': str,
-            'resources':             str,       # list of str
-            'accessTokenResources':  str,       # list of str
+            'resources':             str,           # list of str
+            'accessTokenResources':  str,           # list of str
+            'authorizationDetails':  AuthzDetails,
+            'grantId':               str,
+            'grant':                 Grant,
+            'consentedClaims':       str,           # list of str
+            'serviceAttributes':     Pair,          # list of Pair
+            'clientAttributes':      Pair,          # list of Pair
+            'forExternalAttachment': bool,
+            'acr':                   str,
+            'authTime':              int,
+            'grantType':             GrantType,
+            'forCredentialIssuance': bool,
+            'cnonce':                str,
+            'cnonceExpiresAt':       int,
+            'issuableCredentials':   str,
+            'dpopNonce':             str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,22 +15,31 @@
 # License.
 
 
-from authlete.dto.property   import Property
-from authlete.types.jsonable import Jsonable
+from authlete.dto.authz_details import AuthzDetails
+from authlete.dto.property      import Property
+from authlete.types.jsonable    import Jsonable
 
 
 class AuthorizationIssueRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'ticket':          str,
-            'subject':         str,
-            'sub':             str,
-            'authTime':        int,
-            'acr':             str,
-            'claims':          str,
-            'properties':      Property, # list of Property
-            'scopes':          str,      # list of str
-            'idtHeaderParams': str,
+            'ticket':               str,
+            'subject':              str,
+            'sub':                  str,
+            'authTime':             int,
+            'acr':                  str,
+            'claims':               str,
+            'properties':           Property,      # list of Property
+            'scopes':               str,           # list of str
+            'idtHeaderParams':      str,
+            'authorizationDetails': AuthzDetails,
+            'consentedClaims':      str,           # list of str
+            'claimsForTx':          str,
+            'verifiedClaimsForTx':  str,           # list of str
+            'jwtAtClaims':          str,
+            'accessToken':          str,
+            'idTokenAudType':       str,
+            'accessTokenDuration':  int
         }
 
         super().__init__(nameAndValues, nameAndTypes)

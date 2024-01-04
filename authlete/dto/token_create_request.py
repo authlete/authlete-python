@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,9 +15,10 @@
 # License.
 
 
-from authlete.dto.property     import Property
-from authlete.types.grant_type import GrantType
-from authlete.types.jsonable   import Jsonable
+from authlete.dto.authz_details import AuthzDetails
+from authlete.dto.property      import Property
+from authlete.types.grant_type  import GrantType
+from authlete.types.jsonable    import Jsonable
 
 
 class TokenCreateRequest(Jsonable):
@@ -31,11 +32,18 @@ class TokenCreateRequest(Jsonable):
             'refreshTokenDuration':  int,
             'properties':            Property,
             'clientIdAliasUsed':     bool,
+            'clientEntityIdUsed':    bool,
             'accessToken':           str,
             'refreshToken':          str,
             'accessTokenPersistent': bool,
             'certificateThumbprint': str,
             'dpopKeyThumbprint':     str,
+            'authorizationDetails':  AuthzDetails,
+            'resources':             str,           # list of str
+            'forExternalAttachment': bool,
+            'jwtAtClaims':           str,
+            'acr':                   str,
+            'authTime':              int
         }
 
         super().__init__(nameAndValues, nameAndTypes)

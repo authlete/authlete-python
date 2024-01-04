@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -16,12 +16,24 @@
 
 
 from authlete.types.jsonable import Jsonable
+from authlete.types.jwe_alg  import JWEAlg
+from authlete.types.jwe_enc  import JWEEnc
+from authlete.types.jws_alg  import JWSAlg
 
 
 class StandardIntrospectionRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'parameters': str
+            'parameters':                 str,
+            'withHiddenProperties':       bool,
+            'rsUri':                      str,
+            'httpAcceptHeader':           str,
+            'introspectionSignAlg':       JWSAlg,
+            'introspectionEncryptionAlg': JWEAlg,
+            'introspectionEncryptionEnc': JWEEnc,
+            'sharedKeyForSign':           str,
+            'sharedKeyForEncryption':     str,
+            'publicKeyForEncryption':     str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

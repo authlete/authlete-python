@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -23,7 +23,10 @@ class UserInfoIssueResponse(ApiResponse):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
             'action':          UserInfoIssueAction,
-            'responseContent': str
+            'responseContent': str,
+            'signature':       str,
+            'signatureInput':  str,
+            'contentDigest':   str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

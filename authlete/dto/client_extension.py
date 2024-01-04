@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ class ClientExtension(Jsonable):
             'requestableScopes':        str,   # list of str
             'accessTokenDuration':      int,
             'refreshTokenDuration':     int,
+            'tokenExchangePermitted':   bool
         }
 
         super().__init__(nameAndValues, nameAndTypes)
