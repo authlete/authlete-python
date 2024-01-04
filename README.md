@@ -52,6 +52,10 @@ service_api_secret  = 'SERVICE_API_SECRET'
 client_id           = 'CLIENT_ID'
 user_id             = 'USER_ID'
 
+# If the Authlete version is 3.0 or higher
+service_access_token = 'SERVICE_ACCESS_TOKEN'
+service_api_secret   = None
+
 
 #--------------------------------------------------
 # AuthleteApi
@@ -62,6 +66,11 @@ cnf = AuthleteConfiguration()
 cnf.baseUrl          = authlete_api_server
 cnf.serviceApiKey    = service_api_key
 cnf.serviceApiSecret = service_api_secret
+
+# If the Authlete version is 3.0 or higher
+cnf.apiVersion         = "V3"
+cnf.serviceAccessToken = service_access_token
+cnf.serviceApiSecret   = None
 
 # Authlete API caller
 api = AuthleteApiImpl(cnf)
@@ -136,6 +145,11 @@ cnf.serviceOwnerApiSecret = ...
 cnf.serviceApiKey         = ...
 cnf.serviceApiSecret      = ...
 
+# If the Authlete version is 3.0 or higher
+cnf.apiVersion         = "V3"
+cnf.serviceAccessToken = ...
+cnf.serviceApiSecret   = None
+
 # Get an implementation of AuthleteApi interface.
 api = AuthleteApiImpl(cnf)
 ```
@@ -146,11 +160,13 @@ and `AuthleteIniConfiguration`.
 `AuthleteEnvConfiguration` class reads settings from the following environment
 variables.
 
+- `AUTHLETE_API_VERSION`
 - `AUTHLETE_BASE_URL`
 - `AUTHLETE_SERVICEOWNER_APIKEY`
 - `AUTHLETE_SERVICEOWNER_APISECRET`
 - `AUTHLETE_SERVICE_APIKEY`
 - `AUTHLETE_SERVICE_APISECRET`
+- `AUTHLETE_SERVICE_ACCESSTOKEN`
 
 The constructor of `AuthleteEnvConfiguration` reads the environment variables,
 so what you have to do in Python code is just to create an instance of the
@@ -165,11 +181,13 @@ format of the file `AuthleteIniConfiguration` expects is as follows.
 
 ```ini
 [authlete]
+api_version              = ...
 base_url                 = ...
 service_owner.api_key    = ...
 service_owner.api_secret = ...
 service.api_key          = ...
 service.api_secret       = ...
+service.access_token     = ...
 ```
 
 The constructor of `AuthleteIniConfiguration` accepts an optional parameter
@@ -208,6 +226,7 @@ Methods in `AuthleteApi` interface can be divided into some categories.
 - `token(request)`
 - `tokenFail(request)`
 - `tokenIssue(request)`
+- `idTokenReissue(request)`
 
 ##### Methods for Service Management
 
@@ -248,12 +267,13 @@ Methods in `AuthleteApi` interface can be divided into some categories.
 
 ##### Methods for OpenID Connect Discovery
 
-- `getServiceConfiguration(pretty=True)`
+- `getServiceConfiguration(request=None)`
 
 ##### Methods for Token Operations
 
 - `tokenCreate(request)`
 - `tokenDelete(token)`
+- `tokenRevoke(request)`
 - `tokenUpdate(request)`
 
 ##### Methods for Requestable Scopes per Client (deprecated; Client APIs suffice)
@@ -300,6 +320,29 @@ Methods in `AuthleteApi` interface can be divided into some categories.
 ##### Methods for PAR (Pushed Authorization Request)
 
 - `pushAuthorizationRequest(request)`
+
+##### Methods for Grant Management for OAuth 2.0
+
+- `gm(request)`
+
+##### Methods for OpenID Federation 1.0
+
+- `federationConfiguration(request)`
+- `federationRegistration(request)`
+
+##### Methods for Verifiable Credentials
+
+- `credentialIssuerMetadata(request)`
+- `credentialIssuerJwks(request)`
+- `credentialJwtIssuerMetadata(request)`
+- `credentialOfferCreate(request)`
+- `credentialOfferInfo(request)`
+- `credentialSingleParse(request)`
+- `credentialSingleIssue(request)`
+- `credentialBatchParse(request)`
+- `credentialBatchIssue(request)`
+- `credentialDeferredParse(request)`
+- `credentialDeferredIssue(request)`
 
 Authlete Version
 ----------------

@@ -51,6 +51,10 @@ service_api_secret  = 'SERVICE_API_SECRET'
 client_id           = 'CLIENT_ID'
 user_id             = 'USER_ID'
 
+# Authlete バージョンが 3.0 以上の場合
+service_access_token = 'SERVICE_ACCESS_TOKEN'
+service_api_secret   = None
+
 
 #--------------------------------------------------
 # AuthleteApi
@@ -61,6 +65,11 @@ cnf = AuthleteConfiguration()
 cnf.baseUrl          = authlete_api_server
 cnf.serviceApiKey    = service_api_key
 cnf.serviceApiSecret = service_api_secret
+
+# Authlete バージョンが 3.0 以上の場合
+cnf.apiVersion         = "V3"
+cnf.serviceAccessToken = service_access_token
+cnf.serviceApiSecret   = None
 
 # Authlete API を呼び出すためのインスタンス
 api = AuthleteApiImpl(cnf)
@@ -135,6 +144,11 @@ cnf.serviceOwnerApiSecret = ...
 cnf.serviceApiKey         = ...
 cnf.serviceApiSecret      = ...
 
+# Authlete バージョンが 3.0 以上の場合
+cnf.apiVersion         = "V3"
+cnf.serviceAccessToken = ...
+cnf.serviceApiSecret   = None
+
 # AuthleteApi インターフェースの実装を取得する。
 api = AuthleteApiImpl(cnf)
 ```
@@ -144,11 +158,13 @@ api = AuthleteApiImpl(cnf)
 
 `AuthleteEnvConfiguration` クラスは次の環境変数から設定を読み込みます。
 
+- `AUTHLETE_API_VERSION`
 - `AUTHLETE_BASE_URL`
 - `AUTHLETE_SERVICEOWNER_APIKEY`
 - `AUTHLETE_SERVICEOWNER_APISECRET`
 - `AUTHLETE_SERVICE_APIKEY`
 - `AUTHLETE_SERVICE_APISECRET`
+- `AUTHLETE_SERVICE_ACCESSTOKEN`
 
 `AuthleteEnvConfiguration` のコンストラクタが環境変数を読み込むので、Python
 コードに書かなければならないのは、次のようにインスタンスを生成する処理だけです。
@@ -162,11 +178,13 @@ cnf = AuthleteEnvConfiguration()
 
 ```ini
 [authlete]
+api_version              = ...
 base_url                 = ...
 service_owner.api_key    = ...
 service_owner.api_secret = ...
 service.api_key          = ...
 service.api_secret       = ...
+service.access_token     = ...
 ```
 
 `AuthleteIniConfiguration` のコンストラクタは、INI
@@ -205,6 +223,7 @@ settings.readTimeout       = 5.0
 - `token(request)`
 - `tokenFail(request)`
 - `tokenIssue(request)`
+- `idTokenReissue(request)`
 
 ##### サービス管理のためのメソッド群
 
@@ -251,6 +270,7 @@ settings.readTimeout       = 5.0
 
 - `tokenCreate(request)`
 - `tokenDelete(token)`
+- `tokenRevoke(request)`
 - `tokenUpdate(request)`
 
 ##### クライアント毎の要求可能スコープ群に関するメソッド群 (非推奨; Client API で代替可能)
@@ -297,6 +317,29 @@ settings.readTimeout       = 5.0
 ##### PAR (Pushed Authorization Request) に関するメソッド群
 
 - `pushAuthorizationRequest(request)`
+
+##### Grant Management for OAuth 2.0 に関するメソッド群
+
+- `gm(request)`
+
+##### OpenID Federation 1.0 に関するメソッド群
+
+- `federationConfiguration(request)`
+- `federationRegistration(request)`
+
+##### Verifiable Credentials に関するメソッド群
+
+- `credentialIssuerMetadata(request)`
+- `credentialIssuerJwks(request)`
+- `credentialJwtIssuerMetadata(request)`
+- `credentialOfferCreate(request)`
+- `credentialOfferInfo(request)`
+- `credentialSingleParse(request)`
+- `credentialSingleIssue(request)`
+- `credentialBatchParse(request)`
+- `credentialBatchIssue(request)`
+- `credentialDeferredParse(request)`
+- `credentialDeferredIssue(request)`
 
 Authlete バージョン
 -------------------
