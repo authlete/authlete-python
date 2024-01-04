@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -30,13 +30,16 @@ class AuthleteIniConfiguration(AuthleteConfiguration):
             section = ini.defaults()
 
         nameAndValues = {
+            'apiVersion':              section.get('api_version'),
             'baseUrl':                 section.get('base_url'),
             'serviceOwnerApiKey':      section.get('service_owner.api_key'),
             'serviceOwnerApiSecret':   section.get('service_owner.api_secret'),
             'serviceOwnerAccessToken': section.get('service_owner.access_token'),
             'serviceApiKey':           section.get('service.api_key'),
             'serviceApiSecret':        section.get('service.api_secret'),
-            'serviceAccessToken':      section.get('service.access_token')
+            'serviceAccessToken':      section.get('service.access_token'),
+            'dpopKey':                 section.get('service.dpop_key'),
+            'clientCertificate':       section.get('service.client_certificate')
         }
 
         super().__init__(nameAndValues)

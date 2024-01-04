@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,3 +22,4 @@ class StandardIntrospectionAction(Enum):
     INTERNAL_SERVER_ERROR = auto()
     BAD_REQUEST           = auto()
     OK                    = auto()
+    JWT                   = auto()

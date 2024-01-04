@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,8 +15,9 @@
 # License.
 
 
-from authlete.dto.property            import Property
 from authlete.dto.api_response        import ApiResponse
+from authlete.dto.authz_details       import AuthzDetails
+from authlete.dto.property            import Property
 from authlete.dto.token_update_action import TokenUpdateAction
 
 
@@ -27,8 +28,12 @@ class TokenUpdateResponse(ApiResponse):
             'accessToken':           str,
             'tokenType':             str,
             'accessTokenExpiresAt':  int,
-            'scopes':                str,      # list of str
-            'properties':            Property  # list of Property
+            'refreshTokenExpiresAt': int,
+            'scopes':                str,           # list of str
+            'properties':            Property,      # list of Property
+            'authorizationDetails':  AuthzDetails,
+            'forExternalAttachment': bool,
+            'tokenId':               str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

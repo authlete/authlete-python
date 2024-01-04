@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020 Authlete, Inc.
+# Copyright (C) 2020-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +17,17 @@
 
 from authlete.dto.api_response           import ApiResponse
 from authlete.dto.pushed_auth_req_action import PushedAuthReqAction
+from authlete.types.client_auth_method   import ClientAuthMethod
 
 
 class PushedAuthReqResponse(ApiResponse):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'action':          PushedAuthReqAction,
-            'responseContent': str,
-            'requestUri':      str,
+            'action':           PushedAuthReqAction,
+            'responseContent':  str,
+            'clientAuthMethod': ClientAuthMethod,
+            'requestUri':       str,
+            'dpopNonce':        str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

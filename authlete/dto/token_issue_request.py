@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -22,9 +22,12 @@ from authlete.types.jsonable import Jsonable
 class TokenIssueRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'ticket':      str,
-            'subject':     str,
-            'properties':  Property  # list of Property
+            'ticket':              str,
+            'subject':             str,
+            'properties':          Property,  # list of Property
+            'jwtAtClaims':         str,
+            'accessToken':         str,
+            'accessTokenDuration': int
         }
 
         super().__init__(nameAndValues, nameAndTypes)

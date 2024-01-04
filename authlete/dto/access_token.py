@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,7 +33,8 @@ class AccessToken(Jsonable):
             'refreshTokenExpiresAt': int,
             'createdAt':             int,
             'lastRefreshedAt':       int,
-            'properties':            Property    # list of Property
+            'properties':            Property,   # list of Property
+            'refreshTokenScopes':    str         # list of str
         }
 
         super().__init__(nameAndValues, nameAndTypes)

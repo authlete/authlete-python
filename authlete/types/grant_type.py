@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -19,10 +19,13 @@ from enum import Enum
 
 
 class GrantType(Enum):
-    AUTHORIZATION_CODE = 'authorization_code'
-    IMPLICIT           = 'implicit'
-    PASSWORD           = 'password'
-    CLIENT_CREDENTIALS = 'client_credentials'
-    REFRESH_TOKEN      = 'refresh_token'
-    CIBA               = 'urn:openid:params:grant-type:ciba'
-    DEVICE_CODE        = 'urn:ietf:params:oauth:grant-type:device_code'
+    AUTHORIZATION_CODE  = 'authorization_code'
+    IMPLICIT            = 'implicit'
+    PASSWORD            = 'password'
+    CLIENT_CREDENTIALS  = 'client_credentials'
+    REFRESH_TOKEN       = 'refresh_token'
+    CIBA                = 'urn:openid:params:grant-type:ciba'
+    DEVICE_CODE         = 'urn:ietf:params:oauth:grant-type:device_code'
+    TOKEN_EXCHANGE      = 'urn:ietf:params:oauth:grant-type:token-exchange'
+    JWT_BEARER          = 'urn:ietf:params:oauth:grant-type:jwt-bearer'
+    PRE_AUTHORIZED_CODE = 'urn:ietf:params:oauth:grant-type:pre-authorized_code'

@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,6 +17,7 @@
 
 from authlete.dto.api_response               import ApiResponse
 from authlete.dto.authorization_issue_action import AuthorizationIssueAction
+from authlete.dto.authorization_ticket_info  import AuthorizationTicketInfo
 
 
 class AuthorizationIssueResponse(ApiResponse):
@@ -29,7 +30,8 @@ class AuthorizationIssueResponse(ApiResponse):
             'accessTokenDuration':  int,
             'idToken':              str,
             'authorizationCode':    str,
-            'jwtAccessToken':       str
+            'jwtAccessToken':       str,
+            'ticketInfo':           AuthorizationTicketInfo
         }
 
         super().__init__(nameAndValues, nameAndTypes)

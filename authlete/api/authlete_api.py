@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -36,7 +36,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def authorization(self, request):
-        """Call Authlete's /api/auth/authorization API.
+        """Call Authlete's /auth/authorization API.
 
         Args:
             request (authlete.dto.AuthorizationRequest)
@@ -52,7 +52,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def authorizationFail(self, request):
-        """Call Authlete's /api/auth/authorization/fail API.
+        """Call Authlete's /auth/authorization/fail API.
 
         Args:
             request (authlete.dto.AuthorizationFailRequest)
@@ -68,7 +68,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def authorizationIssue(self, request):
-        """Call Authlete's /api/auth/authorization/issue API.
+        """Call Authlete's /auth/authorization/issue API.
 
         Args:
             request (authlete.dto.AuthorizationIssueRequest)
@@ -84,7 +84,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def token(self, request):
-        """Call Authlete's /api/auth/token API.
+        """Call Authlete's /auth/token API.
 
         Args:
             request (authlete.dto.TokenRequest)
@@ -100,7 +100,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def tokenCreate(self, request):
-        """Call Authlete's /api/auth/token/create API.
+        """Call Authlete's /auth/token/create API.
 
         Args:
             request (authlete.dto.TokenCreateRequest)
@@ -118,7 +118,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def tokenDelete(self, token):
         """Delete an access token.
 
-        Call Authlete's /api/auth/token/delete/{token} API.
+        Call Authlete's /auth/token/delete/{token} API.
 
         Args:
             token (str) : An access token.
@@ -131,7 +131,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def tokenFail(self, request):
-        """Call Authlete's /api/auth/token/fail API.
+        """Call Authlete's /auth/token/fail API.
 
         Args:
             request (authlete.dto.TokenFailRequest)
@@ -147,7 +147,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def tokenIssue(self, request):
-        """Call Authlete's /api/auth/token/issue API.
+        """Call Authlete's /auth/token/issue API.
 
         Args:
             request (authlete.dto.TokenIssueRequest)
@@ -162,8 +162,24 @@ class AuthleteApi(metaclass=ABCMeta):
 
 
     @abstractmethod
+    def tokenRevoke(self, request):
+        """Call Authlete's /auth/token/revoke API.
+
+        Args:
+            request (authlete.dto.TokenRevokeRequest)
+
+        Returns:
+            authlete.dto.TokenRevokeResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
     def tokenUpdate(self, request):
-        """Call Authlete's /api/auth/token/update API.
+        """Call Authlete's /auth/token/update API.
 
         Args:
             request (authlete.dto.TokenUpdateRequest)
@@ -181,7 +197,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getTokenList(self, clientIdentifier=None, subject=None, start=None, end=None):
         """Get the list of access tokens.
 
-        Call Authlete's /api/auth/token/get/list API.
+        Call Authlete's /auth/token/get/list API.
 
         Args:
             clientIdentifier (str) : The client ID or its alias.
@@ -200,7 +216,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def revocation(self, request):
-        """Call Authlete's /api/auth/revocation API.
+        """Call Authlete's /auth/revocation API.
 
         Args:
             request (authlete.dto.RevocationRequest)
@@ -216,7 +232,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def userinfo(self, request):
-        """Call Authlete's /api/auth/userinfo API.
+        """Call Authlete's /auth/userinfo API.
 
         Args:
             request (authlete.dto.UserInfoRequest)
@@ -232,7 +248,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def userinfoIssue(self, request):
-        """Call Authlete's /api/auth/userinfo/issue API.
+        """Call Authlete's /auth/userinfo/issue API.
 
         Args:
             request (authlete.dto.UserInfoIssueRequest)
@@ -248,7 +264,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def introspection(self, request):
-        """Call Authlete's /api/auth/introspection API.
+        """Call Authlete's /auth/introspection API.
 
         Args:
             request (authlete.dto.IntrospectionRequest)
@@ -264,7 +280,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def standardIntrospection(self, request):
-        """Call Authlete's /api/auth/introspection/standard API.
+        """Call Authlete's /auth/introspection/standard API.
 
         Args:
             request (authlete.dto.StandardIntrospectionRequest)
@@ -282,7 +298,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def createService(self, service):
         """Create a service.
 
-        Call Authlete's /api/service/create API.
+        Call Authlete's /service/create API.
 
         Args:
             service (authlete.dto.Service)
@@ -300,7 +316,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def deleteService(self, apiKey):
         """Delete a service.
 
-        Call Authlete's /api/service/delete/{apiKey} API.
+        Call Authlete's /service/delete/{apiKey} API.
 
         Args:
             apiKey (int) : The API key of the service.
@@ -315,7 +331,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getService(self, apiKey):
         """Get information about a service.
 
-        Call Authlete's /api/service/get/{apiKey} API.
+        Call Authlete's /service/get/{apiKey} API.
 
         Args:
             apiKey (int) : The API key of the service.
@@ -333,7 +349,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getServiceList(self, start=None, end=None):
         """Get the list of services.
 
-        Call Authlete's /api/service/get/list API.
+        Call Authlete's /service/get/list API.
 
         Args:
             start (int) : The start index (inclusive) of the result set.
@@ -352,7 +368,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def updateService(self, service):
         """Update a service.
 
-        Call Authlete's /api/service/update/{apiKey} API.
+        Call Authlete's /service/update/{apiKey} API.
 
         Args:
             service (authlete.dto.Service)
@@ -370,7 +386,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getServiceJwks(self, pretty=True, includePrivateKeys=False):
         """Get the JWK Set of a service.
 
-        Call Authlete's /api/service/jwks/get API.
+        Call Authlete's /service/jwks/get API.
 
         Args:
             pretty (bool) : True to get the JSON in pretty format.
@@ -386,13 +402,13 @@ class AuthleteApi(metaclass=ABCMeta):
 
 
     @abstractmethod
-    def getServiceConfiguration(self, pretty=True):
+    def getServiceConfiguration(self, request=None):
         """Get the configuration of the service in JSON format.
 
-        Call Authlete's /api/service/configuration API.
+        Call Authlete's /service/configuration API.
 
         Args:
-            pretty (bool) : True to get the JSON in pretty format.
+            request (authlete.dto.ServiceConfigurationRequest)
 
         Returns:
             str : The configuration of the service in JSON format.
@@ -407,7 +423,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def createClient(self, client):
         """Create a client.
 
-        Call Authlete's /api/client/create API.
+        Call Authlete's /client/create API.
 
         Args:
             client (authlete.dto.Client)
@@ -425,7 +441,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def dynamicClientRegister(self, request):
         """Register a client.
 
-        Call Authlete's /api/client/registration API.
+        Call Authlete's /client/registration API.
 
         Args:
             request (authlete.dto.ClientRegistrationRequest)
@@ -443,7 +459,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def dynamicClientGet(self, request):
         """Get a dynamically registered client.
 
-        Call Authlete's /api/client/registration/get API.
+        Call Authlete's /client/registration/get API.
 
         Args:
             request (authlete.dto.ClientRegistrationRequest)
@@ -461,7 +477,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def dynamicClientUpdate(self, request):
         """Update a dynamically registered client.
 
-        Call Authlete's /api/client/registration/update API.
+        Call Authlete's /client/registration/update API.
 
         Args:
             request (authlete.dto.ClientRegistrationRequest)
@@ -479,7 +495,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def dynamicClientDelete(self, request):
         """Delete a dynamically registered client.
 
-        Call Authlete's /api/client/registration/delete API.
+        Call Authlete's /client/registration/delete API.
 
         Args:
             request (authlete.dto.ClientRegistrationRequest)
@@ -497,7 +513,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def deleteClient(self, clientId):
         """Delete a client.
 
-        Call Authlete's /api/client/delete/{clientId} API.
+        Call Authlete's /client/delete/{clientId} API.
 
         Args:
             clientId (int)
@@ -512,7 +528,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getClient(self, clientId):
         """Get information about a client.
 
-        Call Authlete's /api/client/get/{clientId} API.
+        Call Authlete's /client/get/{clientId} API.
 
         Args:
             clientId (int)
@@ -530,7 +546,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getClientList(self, developer=None, start=None, end=None):
         """Get the list of client applications.
 
-        Call Authlete's /api/client/get/list API.
+        Call Authlete's /client/get/list API.
 
         Args:
             developer (str) : The developer of the targeted client applications.
@@ -550,7 +566,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def updateClient(self, client):
         """Update a client.
 
-        Call Authlete's /api/client/update/{clientId} API.
+        Call Authlete's /client/update/{clientId} API.
 
         Args:
             client (authlete.dto.Client)
@@ -568,7 +584,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getRequestableScopes(self, clientId):
         """Get the requestable scopes assigned to a client.
 
-        Call Authlete's /api/client/extension/requestable_scopes/get/{clientId} API.
+        Call Authlete's /client/extension/requestable_scopes/get/{clientId} API.
 
         Args:
             clientId (int)
@@ -586,7 +602,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def setRequestableScopes(self, clientId, scopes):
         """Set the requestable scopes assigned to a client.
 
-        Call Authlete's /api/client/extension/requestable_scopes/update/{clientId} API.
+        Call Authlete's /client/extension/requestable_scopes/update/{clientId} API.
 
         Args:
             clientId (int)
@@ -605,7 +621,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def deleteRequestableScopes(self, clientId):
         """Clear the requestable scopes assigned to a client.
 
-        Call Authlete's /api/client/extension/requestable_scopes/delete/{clientId} API.
+        Call Authlete's /client/extension/requestable_scopes/delete/{clientId} API.
 
         Args:
             clientId (int)
@@ -620,7 +636,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def getGrantedScopes(self, clientId, subject):
         """Get the set of scopes that a user has granted to a client application.
 
-        Call Authlete's /api/client/granted_scopes/get/{clientId} API.
+        Call Authlete's /client/granted_scopes/get/{clientId} API.
 
         Args:
             clientId (int)
@@ -639,7 +655,7 @@ class AuthleteApi(metaclass=ABCMeta):
     def deleteGrantedScopes(self, clientId, subject):
         """Delete records about the set of scopes that a user has granted to a client application.
 
-        Call Authlete's /api/client/granted_scopes/delete/{clientId} API.
+        Call Authlete's /client/granted_scopes/delete/{clientId} API.
 
         Args:
             clientId (int)
@@ -746,7 +762,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def backchannelAuthentication(self, request):
-        """Call Authlete's /api/backchannel/authentication API.
+        """Call Authlete's /backchannel/authentication API.
 
         Args:
             request (authlete.dto.BackchannelAuthenticationRequest)
@@ -762,7 +778,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def backchannelAuthenticationIssue(self, request):
-        """Call Authlete's /api/backchannel/authentication/issue API.
+        """Call Authlete's /backchannel/authentication/issue API.
 
         Args:
             request (authlete.dto.BackchannelAuthenticationIssueRequest)
@@ -778,7 +794,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def backchannelAuthenticationFail(self, request):
-        """Call Authlete's /api/backchannel/authentication/fail API.
+        """Call Authlete's /backchannel/authentication/fail API.
 
         Args:
             request (authlete.dto.BackchannelAuthenticationFailRequest)
@@ -794,7 +810,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def backchannelAuthenticationComplete(self, request):
-        """Call Authlete's /api/backchannel/authentication/complete API.
+        """Call Authlete's /backchannel/authentication/complete API.
 
         Args:
             request (authlete.dto.BackchannelAuthenticationCompleteRequest)
@@ -810,7 +826,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def deviceAuthorization(self, request):
-        """Call Authlete's /api/device/authorization API.
+        """Call Authlete's /device/authorization API.
 
         Args:
             request (authlete.dto.DeviceAuthorizationRequest)
@@ -826,7 +842,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def deviceComplete(self, request):
-        """Call Authlete's /api/device/complete API.
+        """Call Authlete's /device/complete API.
 
         Args:
             request (authlete.dto.DeviceCompleteRequest)
@@ -842,7 +858,7 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def deviceVerification(self, request):
-        """Call Authlete's /api/device/verification API.
+        """Call Authlete's /device/verification API.
 
         Args:
             request (authlete.dto.DeviceVerificationRequest)
@@ -858,13 +874,376 @@ class AuthleteApi(metaclass=ABCMeta):
 
     @abstractmethod
     def pushAuthorizationRequest(self, request):
-        """Call Authlete's /api/push_auth_req API.
+        """Call Authlete's /push_auth_req API.
 
         Args:
             request (authlete.dto.PushedAuthReqRequest)
 
         Returns:
             authlete.dto.PushedAuthReqResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def hskCreate(self, request):
+        """Call Authlete's /hsk/create API.
+
+        Args:
+            request (authlete.dto.HskCreateRequest)
+
+        Returns:
+            authlete.dto.HskResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def hskDelete(self, handle):
+        """Call Authlete's /hsk/delete/{handle} API.
+
+        Args:
+            handle (str)
+
+        Returns:
+            authlete.dto.HskResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def hskGet(self, handle):
+        """Call Authlete's /hsk/get/{handle} API.
+
+        Args:
+            handle (str)
+
+        Returns:
+            authlete.dto.HskResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def hskGetList(self):
+        """Call Authlete's /hsk/get/list API.
+
+        Returns:
+            authlete.dto.HskListResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def echo(self, parameters):
+        """Call Authlete's /misc/echo API.
+
+        Args:
+            parameters (dict)
+
+        Returns:
+            dict
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def gm(self, request):
+        """Call Authlete's /gm API.
+
+        Args:
+            request (authlete.dto.GrantManagementRequest)
+
+        Returns:
+            authlete.dto.GrantManagementResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def updateClientLockFlag(self, clientIdentifier, clientLocked):
+        """Call Authlete's /gm API.
+
+        Args:
+            clientIdentifier (str)
+            clientLocked (bool)
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def federationConfiguration(self, request):
+        """Call Authlete's /federation/configuration API.
+
+        Args:
+            request (authlete.dto.FederationConfigurationRequest)
+
+        Returns:
+            authlete.dto.FederationConfigurationResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def federationRegistration(self, request):
+        """Call Authlete's /federation/registration API.
+
+        Args:
+            request (authlete.dto.FederationRegistrationRequest)
+
+        Returns:
+            authlete.dto.FederationRegistrationResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialIssuerMetadata(self, request):
+        """Call Authlete's /vci/metadata API.
+
+        Args:
+            request (authlete.dto.CredentialIssuerMetadataRequest)
+
+        Returns:
+            authlete.dto.CredentialIssuerMetadataResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialJwtIssuerMetadata(self, request):
+        """Call Authlete's /vci/jwtissuer API.
+
+        Args:
+            request (authlete.dto.CredentialJwtIssuerMetadataRequest)
+
+        Returns:
+            authlete.dto.CredentialJwtIssuerMetadataResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialIssuerJwks(self, request):
+        """Call Authlete's /vci/jwks API.
+
+        Args:
+            request (authlete.dto.CredentialIssuerJwksRequest)
+
+        Returns:
+            authlete.dto.CredentialIssuerJwksResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialOfferCreate(self, request):
+        """Call Authlete's /vci/offer/create API.
+
+        Args:
+            request (authlete.dto.CredentialOfferCreateRequest)
+
+        Returns:
+            authlete.dto.CredentialOfferCreateResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialOfferInfo(self, request):
+        """Call Authlete's /vci/offer/info API.
+
+        Args:
+            request (authlete.dto.CredentialOfferInfoRequest)
+
+        Returns:
+            authlete.dto.CredentialOfferInfoResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialSingleParse(self, request):
+        """Call Authlete's /vci/single/parse API.
+
+        Args:
+            request (authlete.dto.CredentialSingleParseRequest)
+
+        Returns:
+            authlete.dto.CredentialSingleParseResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialSingleIssue(self, request):
+        """Call Authlete's /vci/single/issue API.
+
+        Args:
+            request (authlete.dto.CredentialSingleIssueRequest)
+
+        Returns:
+            authlete.dto.CredentialSingleIssueResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialBatchParse(self, request):
+        """Call Authlete's /vci/batch/parse API.
+
+        Args:
+            request (authlete.dto.CredentialBatchParseRequest)
+
+        Returns:
+            authlete.dto.CredentialBatchParseResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialBatchIssue(self, request):
+        """Call Authlete's /vci/batch/issue API.
+
+        Args:
+            request (authlete.dto.CredentialBatchIssueRequest)
+
+        Returns:
+            authlete.dto.CredentialBatchIssueResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialDeferredParse(self, request):
+        """Call Authlete's /vci/deferred/parse API.
+
+        Args:
+            request (authlete.dto.CredentialDeferredParseRequest)
+
+        Returns:
+            authlete.dto.CredentialDeferredParseResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def credentialDeferredIssue(self, request):
+        """Call Authlete's /vci/deferred/issue API.
+
+        Args:
+            request (authlete.dto.CredentialDeferredIssueRequest)
+
+        Returns:
+            authlete.dto.CredentialDeferredIssueResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def idTokenReissue(self, request):
+        """Call Authlete's /idtoken/reissue API.
+
+        Args:
+            request (authlete.dto.IDTokenReissueRequest)
+
+        Returns:
+            authlete.dto.IDTokenReissueResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def authorizationTicketInfo(self, request):
+        """Call Authlete's /auth/authorization/ticket/info API.
+
+        Args:
+            request (authlete.dto.AuthorizationTicketInfoRequest)
+
+        Returns:
+            authlete.dto.AuthorizationTicketInfoResponse
+
+        Raises:
+            authlete.api.AuthleteApiException
+        """
+        pass
+
+
+    @abstractmethod
+    def authorizationTicketUpdate(self, request):
+        """Call Authlete's /auth/authorization/ticket/update API.
+
+        Args:
+            request (authlete.dto.AuthorizationTicketUpdateRequest)
+
+        Returns:
+            authlete.dto.AuthorizationTicketUpdateResponse
 
         Raises:
             authlete.api.AuthleteApiException

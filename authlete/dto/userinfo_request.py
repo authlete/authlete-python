@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019-2020 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 # License.
 
 
+from authlete.dto.pair       import Pair
 from authlete.types.jsonable import Jsonable
 
 
@@ -26,6 +27,10 @@ class UserInfoRequest(Jsonable):
             'dpop':              str,
             'htm':               str,
             'htu':               str,
+            'uri':               str,
+            'headers':           Pair,  # list of Pair
+            'message':           str,
+            'dpopNonceRequired': bool
         }
 
         super().__init__(nameAndValues, nameAndTypes)

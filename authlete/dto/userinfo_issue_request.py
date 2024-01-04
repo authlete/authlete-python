@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2019-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,15 +15,20 @@
 # License.
 
 
+from authlete.dto.pair       import Pair
 from authlete.types.jsonable import Jsonable
 
 
 class UserInfoIssueRequest(Jsonable):
     def __init__(self, nameAndValues=None):
         nameAndTypes = {
-            'token':  str,
-            'claims': str,
-            'sub':    str
+            'token':               str,
+            'claims':              str,
+            'sub':                 str,
+            'claimsForTx':         str,
+            'verifiedClaimsForTx': str,   # list of str
+            'requestSignature':    str,
+            'headers':             Pair   # list of Pair
         }
 
         super().__init__(nameAndValues, nameAndTypes)

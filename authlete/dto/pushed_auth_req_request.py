@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2020 Authlete, Inc.
+# Copyright (C) 2020-2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -27,6 +27,10 @@ class PushedAuthReqRequest(Jsonable):
             'clientSecret':          str,
             'clientCertificate':     str,
             'clientCertificatePath': str,      # list of str
+            'dpop':                  str,
+            'htm':                   str,
+            'htu':                   str,
+            'dpopNonceRequired':     bool
         }
 
         super().__init__(nameAndValues, nameAndTypes)
