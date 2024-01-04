@@ -57,7 +57,7 @@ class Authorizer:
         """
         if api is None:
             # Build a caller for Authlete APIs. AuthleteEnvConfiguration
-            # reads configuration from the environemt variables such as
+            # reads configuration from the environment variables such as
             # AUTHLETE_SERVICE_APIKEY, AUTHLETE_SERVICE_APISECRET and
             # AUTHLETE_BASE_URL.
             api = AuthleteApiImpl(AuthleteEnvConfiguration())
