@@ -77,15 +77,6 @@ class Jsonable:
             return None
 
 
-    # def __setattr__(self, name, value):
-    #     if hasattr(self, name):
-    #         super().__setattr__(name, value)
-    #     else:
-    #         raise AttributeError(
-    #             "'{}' object has no attribute '{}'".format(
-    #                 type(self).__qualname__, name))
-
-
     def __str__(self):
         # JSON
         return self.to_json()
