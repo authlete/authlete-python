@@ -19,6 +19,6 @@ from enum import Enum
 
 
 class UserIdentificationHintType(Enum):
-    ID_TOKEN_HINT    = 'id_token_hint'
-    LOGIN_HINT       = 'login_hint'
-    LOGIN_HINT_TOKEN = 'login_hint_token'
+    ID_TOKEN_HINT    = 'id_token_hint' # nosec
+    LOGIN_HINT       = 'login_hint'    # nosec
+    LOGIN_HINT_TOKEN = 'login_hint_token' # nosec
