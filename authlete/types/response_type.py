@@ -21,9 +21,9 @@ from enum import Enum
 class ResponseType(Enum):
     NONE                = 'none'
     CODE                = 'code'
-    TOKEN               = 'token'
-    ID_TOKEN            = 'id_token'
-    CODE_TOKEN          = 'code token'
-    CODE_ID_TOKEN       = 'code id_token'
-    ID_TOKEN_TOKEN      = 'id_token token'
-    CODE_ID_TOKEN_TOKEN = 'code id_token token'
+    TOKEN               = 'token'                 # nosec
+    ID_TOKEN            = 'id_token'              # nosec
+    CODE_TOKEN          = 'code token'            # nosec
+    CODE_ID_TOKEN       = 'code id_token'         # nosec
+    ID_TOKEN_TOKEN      = 'id_token token'        # nosec
+    CODE_ID_TOKEN_TOKEN = 'code id_token token'   # nosec

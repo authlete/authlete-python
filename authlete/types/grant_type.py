@@ -20,12 +20,12 @@ from enum import Enum
 
 class GrantType(Enum):
     AUTHORIZATION_CODE  = 'authorization_code'
-    IMPLICIT            = 'implicit'
-    PASSWORD            = 'password'
+    IMPLICIT            = 'implicit'    # nosec                                            
+    PASSWORD            = 'password'    # nosec
     CLIENT_CREDENTIALS  = 'client_credentials'
-    REFRESH_TOKEN       = 'refresh_token'
-    CIBA                = 'urn:openid:params:grant-type:ciba'
+    REFRESH_TOKEN       = 'refresh_token'  # nosec
+    CIBA                = 'urn:openid:params:grant-type:ciba'  # nosec
     DEVICE_CODE         = 'urn:ietf:params:oauth:grant-type:device_code'
-    TOKEN_EXCHANGE      = 'urn:ietf:params:oauth:grant-type:token-exchange'
-    JWT_BEARER          = 'urn:ietf:params:oauth:grant-type:jwt-bearer'
-    PRE_AUTHORIZED_CODE = 'urn:ietf:params:oauth:grant-type:pre-authorized_code'
+    TOKEN_EXCHANGE      = 'urn:ietf:params:oauth:grant-type:token-exchange'  # nosec
+    JWT_BEARER          = 'urn:ietf:params:oauth:grant-type:jwt-bearer'  # nosec
+    PRE_AUTHORIZED_CODE = 'urn:ietf:params:oauth:grant-type:pre-authorized_code'  # nosec
