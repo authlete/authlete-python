@@ -23,7 +23,7 @@ from authlete.types.grant_type        import GrantType
 
 
 class TokenCreateResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                TokenCreateAction,
             'grantType':             GrantType,

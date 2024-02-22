@@ -20,7 +20,7 @@ from authlete.dto.id_token_reissue_action import IDTokenReissueAction
 
 
 class IDTokenReissueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          IDTokenReissueAction,
             'responseContent': str,

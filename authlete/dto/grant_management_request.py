@@ -20,7 +20,7 @@ from authlete.types.jsonable  import Jsonable
 
 
 class GrantManagementRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'gmAction':          GMAction,
             'grantId':           str,

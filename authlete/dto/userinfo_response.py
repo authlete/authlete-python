@@ -23,7 +23,7 @@ from authlete.dto.userinfo_action import UserInfoAction
 
 
 class UserInfoResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                       UserInfoAction,
             'clientId':                     int,

@@ -27,7 +27,7 @@ from authlete.types.token_type         import TokenType
 
 
 class TokenResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                   TokenAction,
             'responseContent':          str,

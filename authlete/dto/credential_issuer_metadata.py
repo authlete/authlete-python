@@ -21,7 +21,7 @@ from authlete.types.jwe_enc  import JWEEnc;
 
 
 class CredentialIssuerMetadata(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'credentialIssuer':                               str,
             'authorizationServers':                           str,     # list of str

@@ -21,7 +21,7 @@ from authlete.types.jsonable             import Jsonable
 
 
 class DeviceCompleteRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'userCode':         str,
             'result':           DeviceCompleteResult,

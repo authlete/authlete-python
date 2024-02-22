@@ -20,7 +20,7 @@ from authlete.dto.credential_batch_issue_action import CredentialBatchIssueActio
 
 
 class CredentialBatchIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          CredentialBatchIssueAction,
             'responseContent': str

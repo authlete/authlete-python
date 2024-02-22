@@ -23,7 +23,7 @@ from authlete.dto.token_issue_action import TokenIssueAction
 
 
 class TokenIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                TokenIssueAction,
             'responseContent':       str,

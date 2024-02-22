@@ -20,7 +20,7 @@ from authlete.dto.credential_issuer_jwks_action import CredentialIssuerJwksActio
 
 
 class CredentialIssuerJwksResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          CredentialIssuerJwksAction,
             'responseContent': str

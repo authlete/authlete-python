@@ -20,7 +20,7 @@ from authlete.dto.device_complete_action import DeviceCompleteAction
 
 
 class DeviceCompleteResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action': DeviceCompleteAction
         }

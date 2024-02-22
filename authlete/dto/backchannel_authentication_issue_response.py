@@ -20,7 +20,7 @@ from authlete.dto.backchannel_authentication_issue_action import BackchannelAuth
 
 
 class BackchannelAuthenticationIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          BackchannelAuthenticationIssueAction,
             'responseContent': str,

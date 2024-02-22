@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class ClientExtension(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'requestableScopesEnabled': bool,
             'requestableScopes':        str,   # list of str

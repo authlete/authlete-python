@@ -30,7 +30,7 @@ from authlete.types.prompt              import Prompt
 
 
 class AuthorizationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                       AuthorizationAction,
             'service':                      Service,

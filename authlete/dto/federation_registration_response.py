@@ -21,7 +21,7 @@ from authlete.dto.federation_registration_action import FederationRegistrationAc
 
 
 class FederationRegistrationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          FederationRegistrationAction,
             'responseContent': str,

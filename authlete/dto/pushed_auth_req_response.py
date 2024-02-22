@@ -21,7 +21,7 @@ from authlete.types.client_auth_method   import ClientAuthMethod
 
 
 class PushedAuthReqResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':           PushedAuthReqAction,
             'responseContent':  str,

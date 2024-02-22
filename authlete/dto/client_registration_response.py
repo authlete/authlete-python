@@ -21,7 +21,7 @@ from authlete.dto.client_registration_action import ClientRegistrationAction
 
 
 class ClientRegistrationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                  ClientRegistrationAction,
             'responseContent':         str,

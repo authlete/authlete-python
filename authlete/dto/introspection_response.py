@@ -25,7 +25,7 @@ from authlete.types.grant_type         import GrantType
 
 
 class IntrospectionResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                IntrospectionAction,
             'clientId':              int,

@@ -22,7 +22,7 @@ from authlete.types.jsonable    import Jsonable
 
 
 class TokenCreateRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'grantType':             GrantType,
             'clientId':              int,

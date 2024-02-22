@@ -20,7 +20,7 @@ from authlete.dto.token_fail_action import TokenFailAction
 
 
 class TokenFailResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          TokenFailAction,
             'responseContent': str

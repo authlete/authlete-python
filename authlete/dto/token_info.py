@@ -22,7 +22,7 @@ from authlete.types.jsonable    import Jsonable
 
 
 class TokenInfo(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'clientId':             int,
             'subject':              str,

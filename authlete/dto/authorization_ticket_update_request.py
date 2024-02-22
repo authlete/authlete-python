@@ -20,7 +20,7 @@ from authlete.types.jsonable                import Jsonable
 
 
 class AuthorizationTicketUpdateRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'ticket': str,
             'info':   AuthorizationTicketInfo

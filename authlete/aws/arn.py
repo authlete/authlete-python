@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class ARN(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'partition': str,
             'service':   str,

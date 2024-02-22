@@ -20,7 +20,7 @@ from authlete.dto.grant_management_action import GrantManagementAction
 
 
 class GrantManagementResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          GrantManagementAction,
             'responseContent': str,

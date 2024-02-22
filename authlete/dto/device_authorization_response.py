@@ -21,7 +21,7 @@ from authlete.dto.scope                              import Scope
 
 
 class DeviceAuthorizationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                  DeviceAuthorizationAction,
             'responseContent':         str,

@@ -19,15 +19,14 @@ from enum import Enum
 from json import dumps, loads
 
 
-class Jsonable(object):
-    def __init__(self, nameAndValues=None, nameAndTypes=None):
+class Jsonable:
+    def __init__(self, nameAndValues={}, nameAndTypes={}, **kwargs) -> None:
         # If there is no attribute to add dynamically.
-        if nameAndTypes is None:
+        if not nameAndTypes:
             return
 
-        # If no initial data set is given
-        if nameAndValues is None:
-            nameAndValues = {}
+        for k,v in kwargs.items():
+            nameAndValues[k] = v
 
         # For each attribute to add dynamically.
         for attrName, attrType in nameAndTypes.items():
@@ -39,7 +38,7 @@ class Jsonable(object):
             attrValue = self.__to_attr_value(value, attrType)
 
             # Add an attribute dynamically with the initial value.
-            self.__dict__[attrName] = attrValue
+            setattr(self, attrName, attrValue)
 
 
     def __to_attr_value(self, value, attrType):
@@ -78,13 +77,13 @@ class Jsonable(object):
             return None
 
 
-    def __setattr__(self, name, value):
-        if hasattr(self, name):
-            super().__setattr__(name, value)
-        else:
-            raise AttributeError(
-                "'{}' object has no attribute '{}'".format(
-                    type(self).__qualname__, name))
+    # def __setattr__(self, name, value):
+    #     if hasattr(self, name):
+    #         super().__setattr__(name, value)
+    #     else:
+    #         raise AttributeError(
+    #             "'{}' object has no attribute '{}'".format(
+    #                 type(self).__qualname__, name))
 
 
     def __str__(self):

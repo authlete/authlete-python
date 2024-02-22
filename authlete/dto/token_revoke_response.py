@@ -19,7 +19,7 @@ from authlete.dto.api_response import ApiResponse
 
 
 class TokenRevokeResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'count': int
         }

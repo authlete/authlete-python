@@ -21,7 +21,7 @@ from authlete.types.delivery_mode                            import DeliveryMode
 
 
 class BackchannelAuthenticationCompleteResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':                     BackchannelAuthenticationCompleteAction,
             'responseContent':            str,

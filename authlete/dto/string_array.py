@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class StringArray(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'array': str  # list of str
         }

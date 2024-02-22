@@ -19,7 +19,7 @@ from authlete.dto.api_response import ApiResponse
 
 
 class JoseVerifyResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'valid':             bool,
             'signatureValid':    bool,

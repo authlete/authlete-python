@@ -20,7 +20,7 @@ from authlete.dto.authorization_fail_action import AuthorizationFailAction
 
 
 class AuthorizationFailResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          AuthorizationFailAction,
             'responseContent': str

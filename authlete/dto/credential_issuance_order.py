@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class CredentialIssuanceOrder(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'requestIdentifier':  str,
             'credentialPayload':  str,

@@ -33,9 +33,6 @@ Quick Start
 The following code simulates "Authorization Code Flow". Replace `CLIENT_ID`,
 `SERVICE_API_KEY` and `SERVICE_API_SECRET` in the code with your own properly.
 
-If you're using an execution environment that supports environment variables 
-(e.g., Docker Compose), set the variables as documented in the section next to the examples.
-
 The code assumes that the client type of the client application is 'public'
 (otherwise client authentication would be required at the token endpoint) and
 the number of registered redirect URIs is one (otherwise `redirect_uri` request
@@ -44,16 +41,16 @@ parameter would be required).
 ```python
 from authlete.api  import AuthleteApiImpl
 from authlete.dto  import *
-from authlete.conf import (
-  AUTHLETE_BASE_URL, # "https://api.authlete.com"
-  AUTHLETE_SERVICE_APIKEY, #
-  AUTHLETE_SERVICE_APISECRET, # If the Authlete version is 3.0 or higher
-  AUTHLETE_SERVICE_ACCESSTOKEN, #
-  AUTHLETE_API_VERSION, # If the Authlete version is 3.0 or higher
-  AUTHLETE_CLIENT_ID, #
-  AUTHLETE_USER_ID #
-)
+from authlete.conf import AuthleteConfiguration
 
+#--------------------------------------------------
+# Configuration Created with Authlete Console
+#--------------------------------------------------
+
+AUTHLETE_BASE_URL = "https://api.authlete.com"
+AUTHLETE_SERVICE_APIKEY = "VALUE"
+AUTHLETE_SERVICE_APISECRET = "VALUE"
+AUTHLETE_CLIENT_ID = "VALUE"
 
 #--------------------------------------------------
 # AuthleteApi
@@ -61,7 +58,7 @@ from authlete.conf import (
 
 # Configuration to access Authlete APIs.
 cnf = AuthleteConfiguration(
-  baseUrl               = AUTHLETE_BASE_URL,
+  baseUrl          = AUTHLETE_BASE_URL,
   serviceApiKey    = AUTHLETE_SERVICE_APIKEY,
   serviceApiSecret = AUTHLETE_SERVICE_APISECRET
 )
@@ -70,7 +67,24 @@ cnf = AuthleteConfiguration(
 cnf.apiVersion         = "V3"
 cnf.serviceAccessToken = service_access_token
 cnf.serviceApiSecret   = None
+```
 
+If you're using an execution environment that supports environment variables 
+(e.g., Docker Compose), you can set the configuration paramenters in your environment and use
+`AuthleteEnvConfiguration`.
+
+```
+from authlete.conf import AuthleteEnvConfiguration
+
+cnf = AuthleteEnvConfiguration()
+
+# cnf.baseUrl
+# 'https://api.authlete.com'
+```
+
+Once you have configured your project everything is ready to initialize the API Client.
+
+```
 # Authlete API caller
 api = AuthleteApiImpl(cnf)
 

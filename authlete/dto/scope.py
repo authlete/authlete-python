@@ -21,7 +21,7 @@ from authlete.types.jsonable   import Jsonable
 
 
 class Scope(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'name':    str,
             'defaultEntry': bool,

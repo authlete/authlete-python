@@ -19,7 +19,7 @@ from authlete.dto.api_response import ApiResponse
 
 
 class ClientSecretRefreshResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'newClientSecret': str,
             'oldClientSecret': str

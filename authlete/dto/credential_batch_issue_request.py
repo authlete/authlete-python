@@ -20,7 +20,7 @@ from authlete.types.jsonable                import Jsonable
 
 
 class CredentialBatchIssueRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'accessToken': str,
             'orders':      CredentialIssuanceOrder  # list of CredentialIssuanceOrder

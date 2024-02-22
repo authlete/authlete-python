@@ -21,7 +21,7 @@ from authlete.dto.credential_offer_info          import CredentialOfferInfo
 
 
 class CredentialOfferCreateResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action': CredentialOfferCreateAction,
             'info':   CredentialOfferInfo

@@ -21,7 +21,7 @@ from authlete.dto.credential_request_info          import CredentialRequestInfo
 
 
 class CredentialDeferredParseResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          CredentialDeferredParseAction,
             'responseContent': str,

@@ -21,7 +21,7 @@ from authlete.types.jsonable    import Jsonable
 
 
 class Grant(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'scopes':               GrantScope,    # list of GrantScope
             'claims':               str,           # list of str

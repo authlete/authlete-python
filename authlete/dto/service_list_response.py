@@ -20,10 +20,7 @@ from authlete.dto.service      import Service
 
 
 class ServiceListResponse(ApiResponse):
-    def __init__(self, nameAndValues=None, nameAndTypes=None):
-        if nameAndTypes is None:
-            nameAndTypes = {}
-
+    def __init__(self, nameAndValues={}, nameAndTypes={}):
         nameAndTypes.update({
             'start':      int,
             'end':        int,

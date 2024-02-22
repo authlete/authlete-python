@@ -20,7 +20,7 @@ from authlete.dto.revocation_action import RevocationAction
 
 
 class RevocationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          RevocationAction,
             'responseContent': str

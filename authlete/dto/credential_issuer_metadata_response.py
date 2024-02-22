@@ -20,7 +20,7 @@ from authlete.dto.credential_issuer_metadata_action import CredentialIssuerMetad
 
 
 class CredentialIssuerMetadataResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'action':          CredentialIssuerMetadataAction,
             'responseContent': str

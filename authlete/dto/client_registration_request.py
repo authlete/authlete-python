@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class ClientRegistrationRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'json':     str,
             'token':    str,

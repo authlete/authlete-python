@@ -22,7 +22,7 @@ from authlete.types.jws_alg  import JWSAlg
 
 
 class StandardIntrospectionRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}):
         nameAndTypes = {
             'parameters':                 str,
             'withHiddenProperties':       bool,
