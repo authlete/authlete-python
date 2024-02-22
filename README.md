@@ -94,8 +94,10 @@ api = AuthleteApiImpl(cnf)
 #--------------------------------------------------
 
 # Prepare a request to /api/auth/authorization API.
-req = AuthorizationRequest()
-req.parameters = f"response_type=code&client_id={AUTHLETE_CLIENT_ID}"
+req = AuthorizationRequest(
+  response_type = "code",
+  client_id = AUTHLETE_CLIENT_ID
+)
 
 # Call /api/auth/authorization API. The class of the
 # response is authlete.dto.AuthorizationResponse.
