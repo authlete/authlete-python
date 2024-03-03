@@ -40,7 +40,11 @@ from authlete.types.user_code_charset        import UserCodeCharset
 
 
 class Service(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'serviceName':                                 str,
             'apiKey':                                      int,

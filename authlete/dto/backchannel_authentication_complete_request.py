@@ -21,7 +21,11 @@ from authlete.types.jsonable                                 import Jsonable
 
 
 class BackchannelAuthenticationCompleteRequest(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'ticket':           str,
             'result':           BackchannelAuthenticationCompleteResult,

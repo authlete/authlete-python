@@ -20,7 +20,11 @@ from authlete.types.sns      import Sns
 
 
 class SnsCredentials(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'sns':       Sns,
             'apiKey':    str,

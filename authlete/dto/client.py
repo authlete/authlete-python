@@ -34,7 +34,11 @@ from authlete.types.jws_alg                  import JWSAlg
 
 
 class Client(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'developer':                                   str,
             'clientId':                                    int,

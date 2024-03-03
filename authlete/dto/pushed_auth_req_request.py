@@ -20,7 +20,11 @@ from authlete.types.jsonable import Jsonable
 
 
 class PushedAuthReqRequest(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'parameters':            str,
             'clientId':              str,

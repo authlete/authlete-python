@@ -20,7 +20,11 @@ from authlete.dto.standard_introspection_action import StandardIntrospectionActi
 
 
 class StandardIntrospectionResponse(ApiResponse):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          StandardIntrospectionAction,
             'responseContent': str

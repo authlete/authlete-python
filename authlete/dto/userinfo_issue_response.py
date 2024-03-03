@@ -20,7 +20,11 @@ from authlete.dto.userinfo_issue_action import UserInfoIssueAction
 
 
 class UserInfoIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          UserInfoIssueAction,
             'responseContent': str,

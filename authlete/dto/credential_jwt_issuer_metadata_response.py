@@ -20,7 +20,11 @@ from authlete.dto.credential_jwt_issuer_metadata_action import CredentialJwtIssu
 
 
 class CredentialJwtIssuerMetadataResponse(ApiResponse):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          CredentialJwtIssuerMetadataAction,
             'responseContent': str

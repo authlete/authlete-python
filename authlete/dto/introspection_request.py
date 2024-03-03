@@ -20,7 +20,11 @@ from authlete.types.jsonable import Jsonable
 
 
 class IntrospectionRequest(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'token':              str,
             'scopes':             str,   # list of str

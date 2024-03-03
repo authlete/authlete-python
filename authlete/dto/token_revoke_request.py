@@ -19,7 +19,11 @@ from authlete.types.jsonable import Jsonable
 
 
 class TokenRevokeRequest(Jsonable):
-    def __init__(self, nameAndValues={}):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'accessTokenIdentifier':  str,
             'refreshTokenIdentifier': str,
