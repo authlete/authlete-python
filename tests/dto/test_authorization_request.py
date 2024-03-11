@@ -22,7 +22,6 @@ from authlete.dto.authorization_request import AuthorizationRequest
 from authlete.dto.property import Property
 
 
-
 class TestAuthorizationRequest(unittest.TestCase):
 
     def test_from_parameters(self):
