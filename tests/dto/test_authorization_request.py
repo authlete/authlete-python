@@ -34,8 +34,5 @@ class TestAuthorizationRequest(unittest.TestCase):
 
         prmtrs_enc = urllib.parse.urlencode(prmtrs)
 
-        req1 = AuthorizationRequest(**prmtrs)
-        self.assertEqual(req1.parameters, prmtrs_enc)    
-
         req2 = AuthorizationRequest(parameters = prmtrs)
         self.assertEqual(req2.parameters, prmtrs_enc)

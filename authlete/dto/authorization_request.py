@@ -20,26 +20,18 @@ from authlete.types.jsonable import Jsonable
 
 
 class AuthorizationRequest(Jsonable):
-    def __init__(self, nameAndValues: dict = {}, parameters: dict = {}, **kwargs) -> None:
+    def __init__(self, nameAndValues: dict = {}, parameters: dict = {}) -> None:
         """
         Initializes a new instance of the AuthorizationRequest class.
 
         Args:
             nameAndValues (dict): A dictionary of name and values for initialization.
             parameters (dict): A dictionary of parameters for the request.
-            **kwargs: Additional keyword arguments with single parameters.
         """
         nameAndTypes = {
             'parameters': str,
             'context':    str
         }
 
-        nameAndValues['context'] = kwargs.pop(
-            'context', 
-            nameAndValues.get('context', None)
-        )
-
-        parameters.update(kwargs)
-        nameAndValues['parameters'] = urllib.parse.urlencode(parameters)
-        
+        nameAndValues['parameters'] = urllib.parse.urlencode(parameters)        
         super().__init__(nameAndValues, nameAndTypes)

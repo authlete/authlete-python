@@ -51,6 +51,7 @@ AUTHLETE_BASE_URL = "https://api.authlete.com"
 AUTHLETE_SERVICE_APIKEY = "VALUE"
 AUTHLETE_SERVICE_APISECRET = "VALUE"
 AUTHLETE_CLIENT_ID = "VALUE"
+AUTHLETE_USER_ID = "your_authenticated_user_id"
 
 #--------------------------------------------------
 # AuthleteApi
@@ -74,6 +75,8 @@ If you're using an execution environment that supports environment variables
 `AuthleteEnvConfiguration`.
 
 ```
+from authlete.api  import AuthleteApiImpl
+from authlete.dto  import *
 from authlete.conf import AuthleteEnvConfiguration
 
 cnf = AuthleteEnvConfiguration()
@@ -118,8 +121,10 @@ req.subject = AUTHLETE_USER_ID
 res = api.authorizationIssue(req)
 
 # An authorization response returned to the user agent.
-print('HTTP/1.1 302 Found')
-print(f'Location: {res.responseContent}')
+print(f"""
+HTTP/1.1 302 Found
+Location: {res.responseContent}
+""")
 
 
 #--------------------------------------------------
@@ -127,18 +132,24 @@ print(f'Location: {res.responseContent}')
 #--------------------------------------------------
 
 # Prepare a request to /api/auth/token API.
-req = TokenRequest()
-req.parameters = f'client_id={client_id}&grant_type=authorization_code&code={res.authorizationCode}'
+req = TokenRequest(
+  parameters = dict(
+    client_id=AUTHLETE_CLIENT_ID,
+    grant_type="authorization_code",
+    code=res.authorizationCode
+  )
+)
 
 # Call /api/auth/token API. The class of the response is
 # authlete.dto.TokenResponse.
 res = api.token(req)
 
 # A token response returned to the client.
-print("HTTP/1.1 200 OK")
-print("Content-Type: application/json")
-print(res.responseContent)
-```
+print(f"""
+HTTP/1.1 200 OK
+Content-Type: application/json
+{res.responseContent}
+""")
 
 Description
 -----------

@@ -86,7 +86,7 @@ class Jsonable:
         # CLASSNAME(JSON)
         cls = type(self).__qualname__
         jsn = self.to_json(indent=2)
-        return '{}({})'.format(cls, jsn)
+        return f'{cls}({jsn})'
 
 
     def __dumps(self, obj):

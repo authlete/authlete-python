@@ -14,16 +14,18 @@
 # language governing permissions and limitations under the
 # License.
 
+import urllib
 
 from authlete.dto.property   import Property
 from authlete.types.jsonable import Jsonable
 
 
 class TokenRequest(Jsonable):
-    def __init__(self, nameAndValues: dict = {}):
+    def __init__(self, nameAndValues: dict = {}, parameters :dict = {}):
         """
         Args:
             nameAndValues (dict): A dictionary of name and values for initialization.
+            **kwargs: Additional keyword arguments with single parameters.
         """
         nameAndTypes = {
             'parameters':            str,
@@ -40,5 +42,7 @@ class TokenRequest(Jsonable):
             'accessTokenDuration':   int,
             'dpopNonceRequired':     bool
         }
+        nameAndValues['parameters'] = urllib.parse.urlencode(parameters)
+
 
         super().__init__(nameAndValues, nameAndTypes)
