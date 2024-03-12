@@ -19,9 +19,9 @@ from enum import Enum
 
 
 class TokenType(Enum):
-    JWT           = 'urn:ietf:params:oauth:token-type:jwt'
-    ACCESS_TOKEN  = 'urn:ietf:params:oauth:token-type:access_token'
-    REFRESH_TOKEN = 'urn:ietf:params:oauth:token-type:refresh_token'
-    ID_TOKEN      = 'urn:ietf:params:oauth:token-type:id_token'
-    SAML1         = 'urn:ietf:params:oauth:token-type:saml1'
-    SAML2         = 'urn:ietf:params:oauth:token-type:saml2'
+    JWT           = 'urn:ietf:params:oauth:token-type:jwt'            # nosec
+    ACCESS_TOKEN  = 'urn:ietf:params:oauth:token-type:access_token'   # nosec
+    REFRESH_TOKEN = 'urn:ietf:params:oauth:token-type:refresh_token'  # nosec
+    ID_TOKEN      = 'urn:ietf:params:oauth:token-type:id_token'       # nosec
+    SAML1         = 'urn:ietf:params:oauth:token-type:saml1'          # nosec
+    SAML2         = 'urn:ietf:params:oauth:token-type:saml2'          # nosec

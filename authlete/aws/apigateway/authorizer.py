@@ -460,13 +460,13 @@ class Authorizer:
         try:
             # v2 payload
             return event['requestContext']['authentication']['clientCert']['clientCertPem']
-        except Exception:
+        except Exception: # nosec
             pass
 
         try:
             # v1 payload
             return event['requestContext']['identity']['clientCert']['clientCertPem']
-        except Exception:
+        except Exception: # nosec
             return None
 
 

@@ -14,15 +14,24 @@
 # language governing permissions and limitations under the
 # License.
 
+import urllib
 
 from authlete.types.jsonable import Jsonable
 
 
 class AuthorizationRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}, parameters: dict = {}) -> None:
+        """
+        Initializes a new instance of the AuthorizationRequest class.
+
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+            parameters (dict): A dictionary of parameters for the request.
+        """
         nameAndTypes = {
             'parameters': str,
             'context':    str
         }
 
+        nameAndValues['parameters'] = urllib.parse.urlencode(parameters)        
         super().__init__(nameAndValues, nameAndTypes)

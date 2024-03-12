@@ -1,5 +1,5 @@
 #
-# Copyright (C) 2019 Authlete, Inc.
+# Copyright (C) 2024 Authlete, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -15,19 +15,23 @@
 # License.
 
 
-from authlete.types.jsonable import Jsonable
+import unittest
+
+import urllib
+from authlete.dto.authorization_request import AuthorizationRequest
+from authlete.dto.property import Property
 
 
-class ClientRegistrationRequest(Jsonable):
-    def __init__(self, nameAndValues: dict = {}):
-        """
-        Args:
-            nameAndValues (dict): A dictionary of name and values for initialization.
-        """
-        nameAndTypes = {
-            'json':     str,
-            'token':    str,
-            'clientId': str
+class TestAuthorizationRequest(unittest.TestCase):
+
+    def test_from_parameters(self):
+
+        prmtrs :dict = {
+            "response_type": "code",
+            "client_id": "heyboy!"
         }
 
-        super().__init__(nameAndValues, nameAndTypes)
+        prmtrs_enc = urllib.parse.urlencode(prmtrs)
+
+        req2 = AuthorizationRequest(parameters = prmtrs)
+        self.assertEqual(req2.parameters, prmtrs_enc)

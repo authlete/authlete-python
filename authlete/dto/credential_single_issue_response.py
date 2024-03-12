@@ -20,7 +20,11 @@ from authlete.dto.credential_single_issue_action import CredentialSingleIssueAct
 
 
 class CredentialSingleIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          CredentialSingleIssueAction,
             'responseContent': str,

@@ -32,46 +32,62 @@ Quick Start
 
 The following code simulates "Authorization Code Flow". Replace `CLIENT_ID`,
 `SERVICE_API_KEY` and `SERVICE_API_SECRET` in the code with your own properly.
+
 The code assumes that the client type of the client application is 'public'
 (otherwise client authentication would be required at the token endpoint) and
 the number of registered redirect URIs is one (otherwise `redirect_uri` request
 parameter would be required).
 
 ```python
-from authlete.api  import *
-from authlete.conf import *
+from authlete.api  import AuthleteApiImpl
 from authlete.dto  import *
-
+from authlete.conf import AuthleteConfiguration
 
 #--------------------------------------------------
-# Your Configuration
+# Configuration Created with Authlete Console
 #--------------------------------------------------
-authlete_api_server = 'https://api.authlete.com'
-service_api_key     = 'SERVICE_API_KEY'
-service_api_secret  = 'SERVICE_API_SECRET'
-client_id           = 'CLIENT_ID'
-user_id             = 'USER_ID'
 
-# If the Authlete version is 3.0 or higher
-service_access_token = 'SERVICE_ACCESS_TOKEN'
-service_api_secret   = None
-
+AUTHLETE_BASE_URL = "https://api.authlete.com"
+AUTHLETE_SERVICE_APIKEY = "VALUE"
+AUTHLETE_SERVICE_APISECRET = "VALUE"
+AUTHLETE_CLIENT_ID = "VALUE"
+AUTHLETE_USER_ID = "your_authenticated_user_id"
 
 #--------------------------------------------------
 # AuthleteApi
 #--------------------------------------------------
 
 # Configuration to access Authlete APIs.
-cnf = AuthleteConfiguration()
-cnf.baseUrl          = authlete_api_server
-cnf.serviceApiKey    = service_api_key
-cnf.serviceApiSecret = service_api_secret
+cnf = AuthleteConfiguration(
+  baseUrl          = AUTHLETE_BASE_URL,
+  serviceApiKey    = AUTHLETE_SERVICE_APIKEY,
+  serviceApiSecret = AUTHLETE_SERVICE_APISECRET
+)
 
 # If the Authlete version is 3.0 or higher
 cnf.apiVersion         = "V3"
 cnf.serviceAccessToken = service_access_token
 cnf.serviceApiSecret   = None
+```
 
+If you're using an execution environment that supports environment variables 
+(e.g., Docker Compose), you can set the configuration paramenters in your environment and use
+`AuthleteEnvConfiguration`.
+
+```
+from authlete.api  import AuthleteApiImpl
+from authlete.dto  import *
+from authlete.conf import AuthleteEnvConfiguration
+
+cnf = AuthleteEnvConfiguration()
+
+# cnf.baseUrl
+# 'https://api.authlete.com'
+```
+
+Once you have configured your project everything is ready to initialize the API Client.
+
+```
 # Authlete API caller
 api = AuthleteApiImpl(cnf)
 
@@ -81,8 +97,10 @@ api = AuthleteApiImpl(cnf)
 #--------------------------------------------------
 
 # Prepare a request to /api/auth/authorization API.
-req = AuthorizationRequest()
-req.parameters = 'response_type=code&client_id={}'.format(client_id)
+req = AuthorizationRequest(
+  response_type = "code",
+  client_id = AUTHLETE_CLIENT_ID
+)
 
 # Call /api/auth/authorization API. The class of the
 # response is authlete.dto.AuthorizationResponse.
@@ -96,15 +114,17 @@ res = api.authorization(req)
 # Prepare a request to /api/auth/authorization/issue API.
 req = AuthorizationIssueRequest()
 req.ticket  = res.ticket
-req.subject = user_id
+req.subject = AUTHLETE_USER_ID
 
 # Call /api/auth/authorization/issue API. The class of the
 # response is authlete.dto.AuthorizationIssueResponse.
 res = api.authorizationIssue(req)
 
 # An authorization response returned to the user agent.
-print('HTTP/1.1 302 Found')
-print('Location: {}'.format(res.responseContent))
+print(f"""
+HTTP/1.1 302 Found
+Location: {res.responseContent}
+""")
 
 
 #--------------------------------------------------
@@ -112,19 +132,24 @@ print('Location: {}'.format(res.responseContent))
 #--------------------------------------------------
 
 # Prepare a request to /api/auth/token API.
-req = TokenRequest()
-req.parameters = 'client_id={}&grant_type=authorization_code&code={}'\
-    .format(client_id, res.authorizationCode)
+req = TokenRequest(
+  parameters = dict(
+    client_id=AUTHLETE_CLIENT_ID,
+    grant_type="authorization_code",
+    code=res.authorizationCode
+  )
+)
 
 # Call /api/auth/token API. The class of the response is
 # authlete.dto.TokenResponse.
 res = api.token(req)
 
 # A token response returned to the client.
-print("\nHTTP/1.1 200 OK")
-print("Content-Type: application/json\n")
-print(res.responseContent)
-```
+print(f"""
+HTTP/1.1 200 OK
+Content-Type: application/json
+{res.responseContent}
+""")
 
 Description
 -----------
@@ -393,6 +418,13 @@ def lambda_handler(event, context):
 ```
 
 See "[Financial-grade Amazon API Gateway](https://www.authlete.com/developers/tutorial/financial_grade_apigateway/)" for details.
+
+Tests
+-----
+
+- install dependencies: `pip install -r requirements-dev.txt`
+- execute unit tests with coverage report: `pytest --cov --cov-report term-missing --cov-report term:skip-covered`
+
 
 See Also
 --------

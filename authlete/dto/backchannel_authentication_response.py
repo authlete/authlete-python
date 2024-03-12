@@ -23,7 +23,11 @@ from authlete.types.user_identification_hint_type   import UserIdentificationHin
 
 
 class BackchannelAuthenticationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':                  BackchannelAuthenticationAction,
             'responseContent':         str,

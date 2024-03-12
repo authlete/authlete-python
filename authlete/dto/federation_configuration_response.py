@@ -20,7 +20,11 @@ from authlete.dto.federation_configuration_action import FederationConfiguration
 
 
 class FederationConfigurationResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          FederationConfigurationAction,
             'responseContent': str

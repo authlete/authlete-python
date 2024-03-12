@@ -19,10 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class ApiResponse(Jsonable):
-    def __init__(self, nameAndValues=None, nameAndTypes=None):
-        if nameAndTypes is None:
-            nameAndTypes = {}
-
+    def __init__(self, nameAndValues={}, nameAndTypes={}):
         nameAndTypes.update({
             'resultCode':    str,
             'resultMessage': str

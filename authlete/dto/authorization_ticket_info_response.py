@@ -21,7 +21,11 @@ from authlete.dto.authorization_ticket_info_action import AuthorizationTicketInf
 
 
 class AuthorizationTicketInfoResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action': AuthorizationTicketInfoAction,
             'info':   AuthorizationTicketInfo

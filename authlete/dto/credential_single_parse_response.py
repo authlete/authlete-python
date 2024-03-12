@@ -21,7 +21,11 @@ from authlete.dto.credential_single_parse_action import CredentialSingleParseAct
 
 
 class CredentialSingleParseResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          CredentialSingleParseAction,
             'responseContent': str,

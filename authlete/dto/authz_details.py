@@ -20,7 +20,11 @@ from authlete.types.jsonable            import Jsonable
 
 
 class AuthzDetails(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'elements': AuthzDetailsElement  # list of AuthzDetailsElement
         }

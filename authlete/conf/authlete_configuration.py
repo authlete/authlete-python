@@ -19,7 +19,7 @@ from authlete.types.jsonable import Jsonable
 
 
 class AuthleteConfiguration(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues={}, **kwargs):
         nameAndTypes = {
             'apiVersion':              str,
             'baseUrl':                 str,
@@ -32,5 +32,4 @@ class AuthleteConfiguration(Jsonable):
             'dpopKey':                 str,
             'clientCertificate':       str
         }
-
         super().__init__(nameAndValues, nameAndTypes)

@@ -21,7 +21,11 @@ from authlete.dto.hsk_list_action import HskListAction
 
 
 class HskListResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action': HskListAction,
             'hsks':   Hsk             # list of Hsk

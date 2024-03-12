@@ -19,7 +19,11 @@ from authlete.types.jsonable import Jsonable
 
 
 class CredentialIssuerMetadataRequest(Jsonable):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'pretty': bool
         }

@@ -20,7 +20,11 @@ from authlete.dto.credential_deferred_issue_action import CredentialDeferredIssu
 
 
 class CredentialDeferredIssueResponse(ApiResponse):
-    def __init__(self, nameAndValues=None):
+    def __init__(self, nameAndValues: dict = {}):
+        """
+        Args:
+            nameAndValues (dict): A dictionary of name and values for initialization.
+        """
         nameAndTypes = {
             'action':          CredentialDeferredIssueAction,
             'responseContent': str
